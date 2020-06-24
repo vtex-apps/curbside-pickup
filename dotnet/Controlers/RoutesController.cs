@@ -61,7 +61,7 @@ namespace service.Controllers
             }
 
             Console.WriteLine($"[Process Notification] : '{success}'");
-            return Json(status);
+            return status;
         }
     }
 }

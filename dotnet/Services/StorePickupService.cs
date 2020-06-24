@@ -18,9 +18,10 @@ namespace StorePickup.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _clientFactory;
         private readonly IIOServiceContext _context;
+        private readonly ICryptoService _cryptoService;
         private readonly string _applicationName;
 
-        public StorePickupService(IVtexEnvironmentVariableProvider environmentVariableProvider, IHttpContextAccessor httpContextAccessor, IHttpClientFactory clientFactory, IIOServiceContext context)
+        public StorePickupService(IVtexEnvironmentVariableProvider environmentVariableProvider, IHttpContextAccessor httpContextAccessor, IHttpClientFactory clientFactory, IIOServiceContext context, ICryptoService cryptoService)
         {
             this._environmentVariableProvider = environmentVariableProvider ??
                                                 throw new ArgumentNullException(nameof(environmentVariableProvider));
@@ -34,11 +35,14 @@ namespace StorePickup.Services
             this._context = context ??
                             throw new ArgumentNullException(nameof(context));
 
+            this._cryptoService = cryptoService ??
+                            throw new ArgumentNullException(nameof(cryptoService));
+
             this._applicationName =
                 $"{this._environmentVariableProvider.ApplicationVendor}.{this._environmentVariableProvider.ApplicationName}";
         }
 
-        public async Task<string> SendEmail(string to, StorePickUpConstants.MailTemplateType templateType)
+        public async Task<string> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order)
         {
             string templateName = string.Empty;
             switch (templateType)
@@ -60,7 +64,8 @@ namespace StorePickup.Services
                 providerName = StorePickUpConstants.Acquirer,
                 jsonData = new JsonData
                 {
-                    to = to
+                    to = order.ClientProfileData.Email,
+                    encryptedOrderId = _cryptoService.EncryptString(order.ClientProfileData.Email, order.OrderId, _context.Vtex.Account)
                 }
             };
 
@@ -200,10 +205,18 @@ namespace StorePickup.Services
                     {
                         case StorePickUpConstants.Status.ReadyForHandling:
                             VtexOrder vtexOrder = await this.GetOrderInformation(hookNotification.OrderId);
-                            if (vtexOrder != null)
+                            if (vtexOrder != null && vtexOrder.ShippingData != null && vtexOrder.ShippingData.LogisticsInfo != null)
                             {
-                                List<LogisticsInfo> pickUpItems = vtexOrder.ShippingData.LogisticsInfo.Where(i => i.PickupStoreInfo.IsPickupStore).ToList();
-                                Console.WriteLine($"{pickUpItems.Count} Items for pickup.");
+                                List<LogisticsInfo> pickUpItems = vtexOrder.ShippingData.LogisticsInfo.Where(i => i.PickupStoreInfo != null && i.PickupStoreInfo.IsPickupStore).ToList();
+                                if (pickUpItems != null && pickUpItems.Count > 0)
+                                {
+                                    Console.WriteLine($"{pickUpItems.Count} Items for pickup.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No items for pickup.");
+                                    success = true;
+                                }
                             }
                             break;
                         default:

@@ -7,6 +7,7 @@ namespace StorePickup.Models
     public class JsonData
     {
         public string to { get; set; }
+        public string encryptedOrderId { get; set; }
     }
 
     public class EmailMessage
