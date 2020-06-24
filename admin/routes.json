@@ -1,0 +1,9 @@
+{
+    "admin.app.curbside": {
+      "around": ["layout"],
+      "path": "/admin/app/curbside-pickup/*"
+    },
+    "layout": {
+      "component": "CurbsideAdmin"
+    }
+  }

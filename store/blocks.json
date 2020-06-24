@@ -1,0 +1,22 @@
+{
+  "store.curbside-pickup": {
+    "blocks": [
+      "flex-layout.row#top"
+    ]
+  },
+  "flex-layout.row#top": {
+    "children": ["flex-layout.col#title"]
+  },
+  "flex-layout.col#title": {
+    "children": ["rich-text#title"],
+    "props": {
+      "blockClass": "titleCurbside",
+      "preventVerticalStretch": true
+    }
+  },
+  "rich-text#title": {
+    "props": {
+      "text": "## Curbside/Pickup"
+    }
+  }
+}
