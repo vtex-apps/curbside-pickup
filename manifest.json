@@ -2,7 +2,7 @@
   "name": "curbside-pickup",
   "vendor": "vtex",
   "version": "0.0.1",
-  "title": "Pickup in Store",
+  "title": "Curbside Pickup",
   "description": "",
   "categories": [],
   "settingsSchema": {},
