@@ -18,5 +18,47 @@
     "props": {
       "text": "## Curbside/Pickup"
     }
+  },
+
+  "store.curbside-pickup#thanks": {
+    "blocks": [
+      "flex-layout.row#topthanks"
+    ]
+  },
+  "flex-layout.row#topthanks": {
+    "children": ["flex-layout.col#titlethanks"]
+  },
+  "flex-layout.col#titlethanks": {
+    "children": ["rich-text#titlethanks"],
+    "props": {
+      "blockClass": "titleCurbside",
+      "preventVerticalStretch": true
+    }
+  },
+  "rich-text#titlethanks": {
+    "props": {
+      "text": "## Thank you!"
+    }
+  },
+
+  "store.curbside-pickup#cancelled": {
+    "blocks": [
+      "flex-layout.row#topcancelled"
+    ]
+  },
+  "flex-layout.row#topcancelled": {
+    "children": ["flex-layout.col#titlecancelled"]
+  },
+  "flex-layout.col#titlecancelled": {
+    "children": ["rich-text#titlecancelled"],
+    "props": {
+      "blockClass": "titleCurbside",
+      "preventVerticalStretch": true
+    }
+  },
+  "rich-text#titlecancelled": {
+    "props": {
+      "text": "## Cancelled!"
+    }
   }
 }

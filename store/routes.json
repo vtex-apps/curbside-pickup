@@ -2,5 +2,13 @@
   "store.curbside-pickup": {
     "title": "Curbside/Pickup",
     "path": "/curbside-pickup"
+  },
+  "store.curbside-pickup#thanks": {
+    "title": "Curbside/Pickup",
+    "path": "/curbside-pickup/thanks"
+  },
+  "store.curbside-pickup#cancelled": {
+    "title": "Curbside/Pickup",
+    "path": "/curbside-pickup/cancelled"
   }
 }
