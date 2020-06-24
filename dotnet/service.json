@@ -1,0 +1,18 @@
+{
+  "stack": "dotnet",
+  "memory": 256,
+  "runtimeArgs": [
+  ],
+  "routes": {
+    "processNotification": {
+      "path": "/hook-notification",
+      "public": true
+    }
+  },
+  "events": {
+    "onAppsLinked": {
+      "sender": "apps",
+      "keys": ["linked"]
+    }
+  }
+}
