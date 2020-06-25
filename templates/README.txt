@@ -1,0 +1,1 @@
+This folder contains Default Mail Templates of Handlebars type. 
