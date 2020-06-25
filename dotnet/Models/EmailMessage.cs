@@ -8,6 +8,7 @@ namespace StorePickup.Models
     {
         public string to { get; set; }
         public string encryptedOrderId { get; set; }
+        public string queryArgs { get; set; }
     }
 
     public class EmailMessage

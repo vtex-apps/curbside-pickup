@@ -7,6 +7,10 @@
     "processNotification": {
       "path": "/hook-notification",
       "public": true
+    },
+    "processLink": {
+      "path": "/notify/:action/:id",
+      "public": true
     }
   },
   "events": {

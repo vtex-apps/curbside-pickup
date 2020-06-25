@@ -57,6 +57,20 @@
       }
     },
     {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "raw.githubusercontent.com",
+        "path": "/vtex-apps/curbside-pickup/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "{{account}}.myvtex.com",
+        "path": "/api/do/notes"
+      }
+    },
+    {
       "name": "vbase-read-write"
     }
   ],

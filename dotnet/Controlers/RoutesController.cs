@@ -63,5 +63,12 @@ namespace service.Controllers
             Console.WriteLine($"[Process Notification] : '{success}'");
             return status;
         }
+
+        public async Task<IActionResult> ProcessLink(string action, string id)
+        {
+            ActionResult status = BadRequest();
+            
+            return status;
+        }
     }
 }
