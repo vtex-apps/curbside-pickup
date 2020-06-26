@@ -20,7 +20,14 @@ namespace StorePickup.Data
         public const string Acquirer = "StorePickup";
 
         public const string GitHubUrl = "http://raw.githubusercontent.com";
+        public const string Repository = "vtex-apps/curbside-pickup";
         public const string TemplateFolder = "templates";
+        public const string TemplateFileExtension = "hbs";
+
+        public const string CommentDomain = "oms";
+        public const string CommentType = "order";
+
+        public const string ViewerCountry = "cloudfront-viewer-country";
 
         public const string FORWARDED_HEADER = "X-Forwarded-For";
         public const string FORWARDED_HOST = "X-Forwarded-Host";
@@ -32,6 +39,7 @@ namespace StorePickup.Data
         public const string PROXY_TO_HEADER_NAME = "X-Vtex-Proxy-To";
         public const string VTEX_ACCOUNT_HEADER_NAME = "X-Vtex-Account";
         public const string ENVIRONMENT = "vtexcommercestable";
+        public const string LOCAL_ENVIRONMENT = "myvtex";
         public const string VTEX_ID_HEADER_NAME = "VtexIdclientAutCookie";
         public const string HEADER_VTEX_WORKSPACE = "X-Vtex-Workspace";
         public const string APP_SETTINGS = "vtex.StorePickup-pixel";
@@ -73,15 +81,28 @@ namespace StorePickup.Data
 
         public class MailTemplates
         {
-            public const string ReadyForPacking = "";
-            public const string PackageReady = "";
-            public const string AtLocation = "";
+            public const string ReadyForPacking = "ready-for-packing";
+            public const string PackageReady = "package-ready";
+            public const string AtLocation = "at-location";
+        }
+
+        public class OrderCommentText
+        {
+            public const string ReadyForPacking = "Ready For Packing";
+            public const string PackageReady = "Package Ready";
+            public const string AtLocation = "At Location";
         }
 
         public class Domain
         {
             public const string Fulfillment = "Fulfillment";
             public const string Marketplace = "Marketplace";
+        }
+
+        public class TemplateType
+        {
+            public const string Email = "E";
+            public const string SMS = "S";
         }
 
         public enum MailTemplateType

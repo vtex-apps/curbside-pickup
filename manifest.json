@@ -53,6 +53,9 @@
       "name": "ADMIN_DS"
     },
     {
+      "name": "AcessaTodosPedidos"
+    },
+    {
       "name": "outbound-access",
       "attrs": {
         "host": "{{account}}.vtexcommercestable.com.br",
@@ -71,6 +74,20 @@
       "attrs": {
         "host": "{{account}}.vtexcommercestable.com.br",
         "path": "/api/orders/hook/config"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "raw.githubusercontent.com",
+        "path": "/vtex-apps/curbside-pickup/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "{{account}}.myvtex.com",
+        "path": "/api/do/notes"
       }
     },
     {
