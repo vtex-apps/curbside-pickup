@@ -11,6 +11,7 @@
   ],
   "builders": {
     "dotnet": "2.x",
+    "node": "6.x",
     "admin": "0.x",
     "store": "0.x",
     "react": "3.x",
@@ -25,9 +26,17 @@
   },
   "mustUpdateAt": "2018-09-05",
   "scripts": {
+    "prereleasy": "bash lint.sh",
     "postreleasy": "vtex publish --verbose"
   },
+  "credentialType": "absolute",
   "policies": [
+    {
+      "name": "colossus-fire-event"
+    },
+    {
+      "name": "colossus-write-logs"
+    },
     {
       "name": "outbound-access",
       "attrs": {
