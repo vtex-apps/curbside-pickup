@@ -1,0 +1,1 @@
+Provides email notifications to shoppers and store staff to facilitate curbside pickup orders.
