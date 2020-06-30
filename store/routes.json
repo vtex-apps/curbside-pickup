@@ -7,6 +7,14 @@
     "title": "Curbside/Pickup",
     "path": "/curbside-pickup/thanks"
   },
+  "store.curbside-pickup#notified": {
+    "title": "Curbside/Pickup",
+    "path": "/curbside-pickup/notified"
+  },
+  "store.curbside-pickup#handover": {
+    "title": "Curbside/Pickup",
+    "path": "/curbside-pickup/handover"
+  },
   "store.curbside-pickup#cancelled": {
     "title": "Curbside/Pickup",
     "path": "/curbside-pickup/cancelled"

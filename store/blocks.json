@@ -20,6 +20,29 @@
     }
   },
 
+  "store.curbside-pickup#notified": {
+    "blocks": [
+      "flex-layout.row#notified"
+    ]
+  },
+  "flex-layout.row#notified": {
+    "children": ["flex-layout.col#notified"]
+  },
+  "flex-layout.col#notified": {
+    "children": ["rich-text#notified"],
+    "props": {
+      "blockClass": "titleCurbside",
+      "preventVerticalStretch": true,
+      "horizontalAlign": "center",
+      "verticalAlign": "middle"
+    }
+  },
+  "rich-text#notified": {
+    "props": {
+      "text": "## Thank you! \n\nThe shopper is being notified that their order is ready for curbside pickup.\nYou will receive another email when the shopper has arrived at the store."
+    }
+  },
+
   "store.curbside-pickup#thanks": {
     "blocks": [
       "flex-layout.row#topthanks"
@@ -32,12 +55,37 @@
     "children": ["rich-text#titlethanks"],
     "props": {
       "blockClass": "titleCurbside",
-      "preventVerticalStretch": true
+      "preventVerticalStretch": true,
+      "horizontalAlign": "center",
+      "verticalAlign": "middle"
     }
   },
   "rich-text#titlethanks": {
     "props": {
-      "text": "## Thank you!"
+      "text": "## Thank you! \n\nA representative will bring your order out to your car shortly."
+    }
+  },
+
+  "store.curbside-pickup#handover": {
+    "blocks": [
+      "flex-layout.row#handover"
+    ]
+  },
+  "flex-layout.row#handover": {
+    "children": ["flex-layout.col#handover"]
+  },
+  "flex-layout.col#handover": {
+    "children": ["rich-text#handover"],
+    "props": {
+      "blockClass": "titleCurbside",
+      "preventVerticalStretch": true,
+      "horizontalAlign": "center",
+      "verticalAlign": "middle"
+    }
+  },
+  "rich-text#handover": {
+    "props": {
+      "text": "## Thank you! \n\nThis completes the curbside pickup process. \nIf there are no other pending shipments in this order, you may proceed with invoicing."
     }
   },
 
@@ -53,7 +101,9 @@
     "children": ["rich-text#titlecancelled"],
     "props": {
       "blockClass": "titleCurbside",
-      "preventVerticalStretch": true
+      "preventVerticalStretch": true,
+      "horizontalAlign": "center",
+      "verticalAlign": "middle"
     }
   },
   "rich-text#titlecancelled": {
