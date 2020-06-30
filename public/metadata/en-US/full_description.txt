@@ -1,12 +1,4 @@
-📢 Use this project, [contribute](https://github.com/vtex-apps/curbside-pickup) to it or open issues to help evolve it using [Store Discussion](https://github.com/vtex-apps/store-discussion).
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-# Curbside Pickup
+## About
 
 This app allows shoppers and store staff to coordinate curbside pickup orders through email notifications. 
 
@@ -20,24 +12,10 @@ This app allows shoppers and store staff to coordinate curbside pickup orders th
 
 ## Configuration
 
-1. [Install](https://vtex.io/docs/recipes/store/installing-an-app) `vtex.curbside-pickup` in the desired account.
+1. Install the app from the VTEX App Store.
 
 2. In your admin dashboard, go to `Apps > Curbside Pickup` to configure the app settings:
 
 - `App Key` & `App Token`: Generate a new app key/token pair in your VTEX account (or use an existing pair) and enter them here.
 
 3. To subscribe the app to the order feed, it is necessary to send a POST request to `https://{{account}}.myvtex.com/_v/pickup/create-hook`. The app key and app token from step 2 can be used to authenticate the POST request (setting them as headers named `X-VTEX-API-AppKey` and `X-VTEX-API-AppToken`, respectively).
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

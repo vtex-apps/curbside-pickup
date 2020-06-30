@@ -39,6 +39,13 @@
     "vtex.rich-text": "0.x",
     "vtex.styleguide": "9.x"
   },
+  "billingOptions": {
+    "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
+    "support": {
+      "url": "https://support.vtex.com/hc/requests"
+    },
+    "free": true
+  },
   "mustUpdateAt": "2018-09-05",
   "scripts": {
     "prereleasy": "bash lint.sh",

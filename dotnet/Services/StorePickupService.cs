@@ -116,7 +116,7 @@ namespace StorePickup.Services
                 providerName = StorePickUpConstants.Acquirer,
                 jsonData = new JsonData
                 {
-                    to = "brian.talma@vtex.com.br", //toEmail,
+                    to = toEmail,
                     encryptedOrderId = encryptedOrderId,
                     queryArgs = queryArgs
                 }
@@ -229,7 +229,7 @@ namespace StorePickup.Services
                     {
                         Key = StorePickUpConstants.EndPointKey
                     },
-                    Url = new Uri($"https://brian--{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.LOCAL_ENVIRONMENT}.com/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}")
+                    Url = new Uri($"https://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.LOCAL_ENVIRONMENT}.com/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}")
                 }
             };
 
@@ -497,8 +497,8 @@ namespace StorePickup.Services
             //string authToken = _context.Vtex.AdminUserAuthToken;
             if (authToken != null && accessToken != null)
             {
-                Console.WriteLine($"authToken = [-]{authToken}[-]");
-                Console.WriteLine($"accessToken = [-]{accessToken}[-]");
+                //Console.WriteLine($"authToken = [-]{authToken}[-]");
+                //Console.WriteLine($"accessToken = [-]{accessToken}[-]");
                 //request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
                 request.Headers.Add(StorePickUpConstants.PROXY_AUTHORIZATION_HEADER_NAME, authToken);
                 request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, accessToken);
@@ -529,7 +529,8 @@ namespace StorePickup.Services
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(StorePickUpConstants.APPLICATION_JSON));
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} Content = '{responseContent}' [-]");
+            //Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} Content = '{responseContent}' [-]");
+            Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} [-]");
 
             return response.IsSuccessStatusCode;
         }
@@ -556,7 +557,7 @@ namespace StorePickup.Services
                 accessToken = accessTokenObj.AuthCookie.Value;
             }
 
-            Console.WriteLine(responseContent);
+            //Console.WriteLine(responseContent);
 
             return accessToken;
         }
@@ -570,7 +571,7 @@ namespace StorePickup.Services
             //}
 
             string baseUrl = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.FORWARDED_HOST];
-            string returnUrl = $"https://{baseUrl}/thankyou";
+            string returnUrl = $"https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.RedirectPage.ThankYou}";
             try
             {
                 string argsText = _cryptoService.DecryptString(action, id, _context.Vtex.Account);
@@ -605,7 +606,7 @@ namespace StorePickup.Services
             catch(Exception ex)
             {
                 Console.WriteLine($"ProcessLink Error {ex.Message}");
-                returnUrl = $"https://{baseUrl}/oops";
+                returnUrl = $"https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.RedirectPage.Error}";
             }
 
             Console.WriteLine($"returnUrl [{returnUrl}]");
