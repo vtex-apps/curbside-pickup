@@ -12,7 +12,7 @@ namespace StorePickup.Data
         public const string VtexIdCookie = "VtexIdclientAutCookie";
 
         public const string EndPointKey = "hook-notification";
-        public const string AppName = "pickup";
+        public const string AppName = "curbside-pickup";
 
         public const string HookPing = "ping";
 
@@ -115,6 +115,13 @@ namespace StorePickup.Data
         {
             public const string Email = "E";
             public const string SMS = "S";
+        }
+
+        public class RedirectPage
+        {
+            public const string ThankYou = "thanks";
+            public const string Cancelled = "cancelled";
+            public const string Error = "oops";
         }
 
         public enum MailTemplateType
