@@ -5,11 +5,15 @@
   ],
   "routes": {
     "processNotification": {
-      "path": "/hook-notification",
+      "path": "/pickup/hook-notification",
       "public": true
     },
-    "processLink": {
-      "path": "/notify/:action/:id",
+    "processMailLink": {
+      "path": "/_v/pickup/notification/:linkAction/:arguments",
+      "public": true
+    },
+    "createHook": {
+      "path": "/_v/pickup/create-hook",
       "public": true
     }
   },

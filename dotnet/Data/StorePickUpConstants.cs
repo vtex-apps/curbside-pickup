@@ -12,7 +12,7 @@ namespace StorePickup.Data
         public const string VtexIdCookie = "VtexIdclientAutCookie";
 
         public const string EndPointKey = "hook-notification";
-        public const string AppName = "store-pickup";
+        public const string AppName = "pickup";
 
         public const string HookPing = "ping";
 
@@ -20,7 +20,7 @@ namespace StorePickup.Data
         public const string Acquirer = "StorePickup";
 
         public const string GitHubUrl = "http://raw.githubusercontent.com";
-        public const string Repository = "vtex-apps/curbside-pickup";
+        public const string Repository = "vtex-apps/curbside-pickup/master";
         public const string TemplateFolder = "templates";
         public const string TemplateFileExtension = "hbs";
 
@@ -28,6 +28,8 @@ namespace StorePickup.Data
         public const string CommentType = "order";
 
         public const string ViewerCountry = "cloudfront-viewer-country";
+        public const string ProviderId = "00000000-0000-0000-0000-000000000000";
+        public const string EmailTo = "{{to}}";
 
         public const string FORWARDED_HEADER = "X-Forwarded-For";
         public const string FORWARDED_HOST = "X-Forwarded-Host";
@@ -42,7 +44,7 @@ namespace StorePickup.Data
         public const string LOCAL_ENVIRONMENT = "myvtex";
         public const string VTEX_ID_HEADER_NAME = "VtexIdclientAutCookie";
         public const string HEADER_VTEX_WORKSPACE = "X-Vtex-Workspace";
-        public const string APP_SETTINGS = "vtex.StorePickup-pixel";
+        public const string APP_SETTINGS = "vtex.curbside-pickup";
         public const string ACCEPT = "Accept";
         public const string CONTENT_TYPE = "Content-Type";
         public const string HTTP_FORWARDED_HEADER = "HTTP_X_FORWARDED_FOR";
@@ -84,13 +86,23 @@ namespace StorePickup.Data
             public const string ReadyForPacking = "ready-for-packing";
             public const string PackageReady = "package-ready";
             public const string AtLocation = "at-location";
+            public const string PickedUp = "picked-up";
         }
 
         public class OrderCommentText
         {
+            public const string ReadyForPacking = "Order items are ready to be packed for pickup";
+            public const string PackageReady = "Shopper has been notified that items are ready for curbside pickup";
+            public const string AtLocation = "Shopper has arrived at curbside pickup location";
+            public const string PickedUp = "Curbside pickup items have been handed off to shopper";
+        }
+
+        public class TemplateSubject
+        {
             public const string ReadyForPacking = "Ready For Packing";
             public const string PackageReady = "Package Ready";
             public const string AtLocation = "At Location";
+            public const string PickedUp = "Items Picked Up";
         }
 
         public class Domain
@@ -109,7 +121,8 @@ namespace StorePickup.Data
         {
             ReadyForPacking,
             PackageReady,
-            AtLocation
+            AtLocation,
+            PickedUp
         }
     }
 }

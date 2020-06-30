@@ -7,80 +7,95 @@ namespace StorePickup.Models
 {
     public class VtexOrder
     {
-        [JsonProperty("emailTracked")]
-        public string EmailTracked { get; set; }
+        [JsonProperty("items")]
+        public List<VtexOrderItem> Items { get; set; }
 
-        [JsonProperty("approvedBy")]
-        public string ApprovedBy { get; set; }
+        [JsonProperty("sellers")]
+        public List<Seller> Sellers { get; set; }
 
-        [JsonProperty("cancelledBy")]
-        public string CancelledBy { get; set; }
+        [JsonProperty("giftRegistryData")]
+        public object GiftRegistryData { get; set; }
 
-        [JsonProperty("cancelReason")]
-        public string CancelReason { get; set; }
+        [JsonProperty("receiptData")]
+        public ReceiptData ReceiptData { get; set; }
 
-        [JsonProperty("orderId")]
-        public string OrderId { get; set; }
+        [JsonProperty("contextData")]
+        public ContextData ContextData { get; set; }
+
+        [JsonProperty("marketPlaceOrderId")]
+        public string MarketPlaceOrderId { get; set; }
+
+        [JsonProperty("marketPlaceOrderGroup")]
+        public object MarketPlaceOrderGroup { get; set; }
+
+        [JsonProperty("marketplaceServicesEndpoint")]
+        public object MarketplaceServicesEndpoint { get; set; }
+
+        [JsonProperty("orderFormId")]
+        public string OrderFormId { get; set; }
 
         [JsonProperty("sequence")]
         public string Sequence { get; set; }
 
-        [JsonProperty("marketplaceOrderId")]
-        public string MarketplaceOrderId { get; set; }
-
-        [JsonProperty("marketplaceServicesEndpoint")]
-        public Uri MarketplaceServicesEndpoint { get; set; }
-
-        [JsonProperty("sellerOrderId")]
-        public string SellerOrderId { get; set; }
-
-        [JsonProperty("origin")]
-        public string Origin { get; set; }
-
         [JsonProperty("affiliateId")]
         public string AffiliateId { get; set; }
-
-        [JsonProperty("salesChannel")]
-        public string SalesChannel { get; set; }
-
-        [JsonProperty("merchantName")]
-        public string MerchantName { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
 
-        [JsonProperty("statusDescription")]
-        public string StatusDescription { get; set; }
+        [JsonProperty("callCenterOperator")]
+        public string CallCenterOperator { get; set; }
 
-        [JsonProperty("value")]
-        public int Value { get; set; }
+        [JsonProperty("userProfileId")]
+        public Guid UserProfileId { get; set; }
 
-        [JsonProperty("creationDate")]
-        public DateTimeOffset CreationDate { get; set; }
+        [JsonProperty("hostName")]
+        public string HostName { get; set; }
 
-        [JsonProperty("lastChange")]
-        public DateTimeOffset LastChange { get; set; }
+        [JsonProperty("creationVersion")]
+        public string CreationVersion { get; set; }
+
+        [JsonProperty("creationEnvironment")]
+        public string CreationEnvironment { get; set; }
+
+        [JsonProperty("lastChangeVersion")]
+        public string LastChangeVersion { get; set; }
+
+        [JsonProperty("workflowInstanceId")]
+        public string WorkflowInstanceId { get; set; }
+
+        [JsonProperty("marketplacePaymentValue")]
+        public object MarketplacePaymentValue { get; set; }
+
+        [JsonProperty("orderId")]
+        public string OrderId { get; set; }
 
         [JsonProperty("orderGroup")]
         public string OrderGroup { get; set; }
 
+        [JsonProperty("state")]
+        public string State { get; set; }
+
+        [JsonProperty("isCheckedIn")]
+        public bool IsCheckedIn { get; set; }
+
+        [JsonProperty("sellerOrderId")]
+        public string SellerOrderId { get; set; }
+
+        [JsonProperty("storeId")]
+        public object StoreId { get; set; }
+
+        [JsonProperty("checkedInPickupPointId")]
+        public object CheckedInPickupPointId { get; set; }
+
+        [JsonProperty("value")]
+        public long Value { get; set; }
+
         [JsonProperty("totals")]
         public List<Total> Totals { get; set; }
 
-        [JsonProperty("items")]
-        public List<Item> Items { get; set; }
-
-        [JsonProperty("marketplaceItems")]
-        public List<string> MarketplaceItems { get; set; }
-
         [JsonProperty("clientProfileData")]
         public ClientProfileData ClientProfileData { get; set; }
-
-        [JsonProperty("giftRegistryData")]
-        public string GiftRegistryData { get; set; }
-
-        [JsonProperty("marketingData")]
-        public object MarketingData { get; set; }
 
         [JsonProperty("ratesAndBenefitsData")]
         public RatesAndBenefitsData RatesAndBenefitsData { get; set; }
@@ -91,135 +106,96 @@ namespace StorePickup.Models
         [JsonProperty("paymentData")]
         public PaymentData PaymentData { get; set; }
 
-        [JsonProperty("packageAttachment")]
-        public PackageAttachment PackageAttachment { get; set; }
-
-        [JsonProperty("sellers")]
-        public List<Seller> Sellers { get; set; }
-
-        [JsonProperty("callCenterOperatorData")]
-        public string CallCenterOperatorData { get; set; }
-
-        [JsonProperty("followUpEmail")]
-        public string FollowUpEmail { get; set; }
-
-        [JsonProperty("lastMessage")]
-        public string LastMessage { get; set; }
-
-        [JsonProperty("hostname")]
-        public string Hostname { get; set; }
-
-        [JsonProperty("invoiceData")]
-        public object InvoiceData { get; set; }
-
-        [JsonProperty("changesAttachment")]
-        public ChangesAttachment ChangesAttachment { get; set; }
-
-        [JsonProperty("openTextField")]
-        public object OpenTextField { get; set; }
-
-        [JsonProperty("roundingError")]
-        public int RoundingError { get; set; }
-
-        [JsonProperty("orderFormId")]
-        public string OrderFormId { get; set; }
+        [JsonProperty("clientPreferencesData")]
+        public ClientPreferencesData ClientPreferencesData { get; set; }
 
         [JsonProperty("commercialConditionData")]
-        public string CommercialConditionData { get; set; }
+        public object CommercialConditionData { get; set; }
 
-        [JsonProperty("isCompleted")]
-        public bool IsCompleted { get; set; }
-
-        [JsonProperty("customData")]
-        public string CustomData { get; set; }
+        [JsonProperty("marketingData")]
+        public object MarketingData { get; set; }
 
         [JsonProperty("storePreferencesData")]
         public StorePreferencesData StorePreferencesData { get; set; }
 
-        [JsonProperty("allowCancellation")]
-        public bool AllowCancellation { get; set; }
+        [JsonProperty("openTextField")]
+        public OpenTextField OpenTextField { get; set; }
+
+        [JsonProperty("invoiceData")]
+        public object InvoiceData { get; set; }
+
+        [JsonProperty("itemMetadata")]
+        public ItemMetadata ItemMetadata { get; set; }
+
+        [JsonProperty("taxData")]
+        public object TaxData { get; set; }
+
+        [JsonProperty("customData")]
+        public object CustomData { get; set; }
+
+        [JsonProperty("hooksData")]
+        public object HooksData { get; set; }
+
+        [JsonProperty("changeData")]
+        public object ChangeData { get; set; }
+
+        [JsonProperty("subscriptionData")]
+        public object SubscriptionData { get; set; }
+
+        [JsonProperty("salesChannel")]
+        public string SalesChannel { get; set; }
+
+        [JsonProperty("followUpEmail")]
+        public string FollowUpEmail { get; set; }
+
+        [JsonProperty("creationDate")]
+        public string CreationDate { get; set; }
+
+        [JsonProperty("lastChange")]
+        public string LastChange { get; set; }
+
+        [JsonProperty("timeZoneCreationDate")]
+        public string TimeZoneCreationDate { get; set; }
+
+        [JsonProperty("timeZoneLastChange")]
+        public string TimeZoneLastChange { get; set; }
+
+        [JsonProperty("isCompleted")]
+        public bool IsCompleted { get; set; }
+
+        [JsonProperty("merchantName")]
+        public object MerchantName { get; set; }
+
+        [JsonProperty("userType")]
+        public string UserType { get; set; }
+
+        [JsonProperty("roundingError")]
+        public long RoundingError { get; set; }
 
         [JsonProperty("allowEdition")]
         public bool AllowEdition { get; set; }
 
-        [JsonProperty("isCheckedIn")]
-        public bool IsCheckedIn { get; set; }
+        [JsonProperty("allowCancellation")]
+        public bool AllowCancellation { get; set; }
 
-        [JsonProperty("marketplace")]
-        public Marketplace Marketplace { get; set; }
+        [JsonProperty("isUserDataVisible")]
+        public bool IsUserDataVisible { get; set; }
 
-        [JsonProperty("authorizedDate")]
-        public DateTimeOffset AuthorizedDate { get; set; }
-
-        [JsonProperty("invoicedDate")]
-        public string InvoicedDate { get; set; }
+        [JsonProperty("allowChangeSeller")]
+        public bool AllowChangeSeller { get; set; }
     }
 
-    public class ChangesAttachment
+    public class ClientPreferencesData
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+        [JsonProperty("locale")]
+        public string Locale { get; set; }
 
-        [JsonProperty("changesData")]
-        public List<ChangesDatum> ChangesData { get; set; }
-    }
-
-    public class ChangesDatum
-    {
-        [JsonProperty("reason")]
-        public string Reason { get; set; }
-
-        [JsonProperty("discountValue")]
-        public int DiscountValue { get; set; }
-
-        [JsonProperty("incrementValue")]
-        public int IncrementValue { get; set; }
-
-        [JsonProperty("itemsAdded")]
-        public List<string> ItemsAdded { get; set; }
-
-        [JsonProperty("itemsRemoved")]
-        public List<ItemsRemoved> ItemsRemoved { get; set; }
-
-        [JsonProperty("receipt")]
-        public Receipt Receipt { get; set; }
-    }
-
-    public class ItemsRemoved
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
-
-        [JsonProperty("price")]
-        public int Price { get; set; }
-
-        [JsonProperty("unitMultiplier")]
-        public float UnitMultiplier { get; set; }
-    }
-
-    public class Receipt
-    {
-        [JsonProperty("date")]
-        public DateTimeOffset Date { get; set; }
-
-        [JsonProperty("orderId")]
-        public string OrderId { get; set; }
-
-        [JsonProperty("receipt")]
-        public string ReceiptReceipt { get; set; }
+        [JsonProperty("optinNewsLetter")]
+        public bool OptinNewsLetter { get; set; }
     }
 
     public class ClientProfileData
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("email")]
         public string Email { get; set; }
 
@@ -229,42 +205,168 @@ namespace StorePickup.Models
         [JsonProperty("lastName")]
         public string LastName { get; set; }
 
-        [JsonProperty("documentType")]
-        public string DocumentType { get; set; }
-
         [JsonProperty("document")]
-        public string Document { get; set; }
+        public object Document { get; set; }
+
+        [JsonProperty("documentType")]
+        public object DocumentType { get; set; }
 
         [JsonProperty("phone")]
         public string Phone { get; set; }
 
         [JsonProperty("corporateName")]
-        public string CorporateName { get; set; }
+        public object CorporateName { get; set; }
 
         [JsonProperty("tradeName")]
-        public string TradeName { get; set; }
+        public object TradeName { get; set; }
 
         [JsonProperty("corporateDocument")]
-        public string CorporateDocument { get; set; }
+        public object CorporateDocument { get; set; }
 
         [JsonProperty("stateInscription")]
-        public string StateInscription { get; set; }
+        public object StateInscription { get; set; }
 
         [JsonProperty("corporatePhone")]
-        public string CorporatePhone { get; set; }
+        public object CorporatePhone { get; set; }
 
         [JsonProperty("isCorporate")]
         public bool IsCorporate { get; set; }
 
-        [JsonProperty("userProfileId")]
-        public Guid UserProfileId { get; set; }
+        [JsonProperty("profileCompleteOnLoading")]
+        public bool ProfileCompleteOnLoading { get; set; }
+
+        [JsonProperty("profileErrorOnLoading")]
+        public bool ProfileErrorOnLoading { get; set; }
 
         [JsonProperty("customerClass")]
-        public string CustomerClass { get; set; }
+        public object CustomerClass { get; set; }
     }
 
-    public class Item
+    public class ContextData
     {
+        [JsonProperty("loggedIn")]
+        public bool LoggedIn { get; set; }
+
+        [JsonProperty("hasAccessToOrderFormEnabledByLicenseManager")]
+        public bool HasAccessToOrderFormEnabledByLicenseManager { get; set; }
+
+        [JsonProperty("userAgent")]
+        public string UserAgent { get; set; }
+
+        [JsonProperty("userId")]
+        public Guid UserId { get; set; }
+    }
+
+    public class ItemMetadata
+    {
+        [JsonProperty("items")]
+        public List<ItemMetadataItem> Items { get; set; }
+    }
+
+    public class ItemMetadataItem
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("seller")]
+        public string Seller { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("skuName")]
+        public string SkuName { get; set; }
+
+        [JsonProperty("productId")]
+        public string ProductId { get; set; }
+
+        [JsonProperty("refId")]
+        public string RefId { get; set; }
+
+        [JsonProperty("ean")]
+        public object Ean { get; set; }
+
+        [JsonProperty("imageUrl")]
+        public Uri ImageUrl { get; set; }
+
+        [JsonProperty("detailUrl")]
+        public string DetailUrl { get; set; }
+
+        [JsonProperty("assemblyOptions")]
+        public List<AssemblyOption> AssemblyOptions { get; set; }
+    }
+
+    public class AssemblyOption
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("required")]
+        public bool AssemblyOptionRequired { get; set; }
+
+        [JsonProperty("inputValues")]
+        public Schema InputValues { get; set; }
+
+        [JsonProperty("composition")]
+        public object Composition { get; set; }
+    }
+
+    public class Schema
+    {
+        [JsonProperty("Line 1")]
+        public Line1 Line1 { get; set; }
+
+        [JsonProperty("Line 2")]
+        public Line1 Line2 { get; set; }
+
+        [JsonProperty("Line 3")]
+        public Line1 Line3 { get; set; }
+
+        [JsonProperty("Line 4", NullValueHandling = NullValueHandling.Ignore)]
+        public Line1 Line4 { get; set; }
+
+        [JsonProperty("Text Style")]
+        public Line1 TextStyle { get; set; }
+    }
+
+    public class Line1
+    {
+        [JsonProperty("maximumNumberOfCharacters")]
+        public long MaximumNumberOfCharacters { get; set; }
+
+        [JsonProperty("domain")]
+        public List<string> Domain { get; set; }
+    }
+
+    public class VtexOrderItem
+    {
+        [JsonProperty("additionalInfo")]
+        public AdditionalInfo AdditionalInfo { get; set; }
+
+        [JsonProperty("sellerSku")]
+        public string SellerSku { get; set; }
+
+        [JsonProperty("priceTable")]
+        public object PriceTable { get; set; }
+
+        [JsonProperty("priceValidUntil")]
+        public string PriceValidUntil { get; set; }
+
+        [JsonProperty("callCenterOperator")]
+        public object CallCenterOperator { get; set; }
+
+        [JsonProperty("commission")]
+        public long Commission { get; set; }
+
+        [JsonProperty("freightCommission")]
+        public long FreightCommission { get; set; }
+
+        [JsonProperty("taxCode")]
+        public string TaxCode { get; set; }
+
         [JsonProperty("uniqueId")]
         public string UniqueId { get; set; }
 
@@ -274,41 +376,74 @@ namespace StorePickup.Models
         [JsonProperty("productId")]
         public string ProductId { get; set; }
 
-        [JsonProperty("ean")]
-        public string Ean { get; set; }
-
-        [JsonProperty("lockId")]
-        public string LockId { get; set; }
-
-        [JsonProperty("itemAttachment")]
-        public ItemAttachment ItemAttachment { get; set; }
-
-        [JsonProperty("attachments")]
-        public List<string> Attachments { get; set; }
-
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
-
-        [JsonProperty("seller")]
-        public string Seller { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("productRefId")]
+        public string ProductRefId { get; set; }
 
         [JsonProperty("refId")]
         public string RefId { get; set; }
 
+        [JsonProperty("ean")]
+        public object Ean { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("skuName")]
+        public string SkuName { get; set; }
+
+        [JsonProperty("modalType")]
+        public object ModalType { get; set; }
+
+        [JsonProperty("parentItemIndex")]
+        public object ParentItemIndex { get; set; }
+
+        [JsonProperty("parentAssemblyBinding")]
+        public object ParentAssemblyBinding { get; set; }
+
+        [JsonProperty("assemblies")]
+        public List<object> Assemblies { get; set; }
+
+        [JsonProperty("tax")]
+        public long Tax { get; set; }
+
         [JsonProperty("price")]
-        public int Price { get; set; }
+        public long Price { get; set; }
 
         [JsonProperty("listPrice")]
-        public int ListPrice { get; set; }
+        public long ListPrice { get; set; }
 
         [JsonProperty("manualPrice")]
-        public string ManualPrice { get; set; }
+        public object ManualPrice { get; set; }
 
-        [JsonProperty("priceTags")]
-        public List<PriceTag> PriceTags { get; set; }
+        [JsonProperty("manualPriceAppliedBy")]
+        public object ManualPriceAppliedBy { get; set; }
+
+        [JsonProperty("sellingPrice")]
+        public long SellingPrice { get; set; }
+
+        [JsonProperty("rewardValue")]
+        public long RewardValue { get; set; }
+
+        [JsonProperty("isGift")]
+        public bool IsGift { get; set; }
+
+        [JsonProperty("preSaleDate")]
+        public object PreSaleDate { get; set; }
+
+        [JsonProperty("productCategoryIds")]
+        public string ProductCategoryIds { get; set; }
+
+        [JsonProperty("productCategories")]
+        public Dictionary<string, string> ProductCategories { get; set; }
+
+        [JsonProperty("quantity")]
+        public long Quantity { get; set; }
+
+        [JsonProperty("seller")]
+        public string Seller { get; set; }
+
+        [JsonProperty("sellerChain")]
+        public List<string> SellerChain { get; set; }
 
         [JsonProperty("imageUrl")]
         public Uri ImageUrl { get; set; }
@@ -317,76 +452,40 @@ namespace StorePickup.Models
         public string DetailUrl { get; set; }
 
         [JsonProperty("components")]
-        public List<string> Components { get; set; }
+        public List<object> Components { get; set; }
 
         [JsonProperty("bundleItems")]
-        public List<string> BundleItems { get; set; }
+        public List<object> BundleItems { get; set; }
 
-        [JsonProperty("params")]
-        public List<string> Params { get; set; }
+        [JsonProperty("attachments")]
+        public List<object> Attachments { get; set; }
+
+        [JsonProperty("attachmentOfferings")]
+        public List<AttachmentOffering> AttachmentOfferings { get; set; }
 
         [JsonProperty("offerings")]
-        public List<string> Offerings { get; set; }
+        public List<object> Offerings { get; set; }
 
-        [JsonProperty("sellerSku")]
-        public string SellerSku { get; set; }
+        [JsonProperty("priceTags")]
+        public List<PriceTag> PriceTags { get; set; }
 
-        [JsonProperty("priceValidUntil")]
-        public string PriceValidUntil { get; set; }
-
-        [JsonProperty("commission")]
-        public int Commission { get; set; }
-
-        [JsonProperty("tax")]
-        public int Tax { get; set; }
-
-        [JsonProperty("preSaleDate")]
-        public string PreSaleDate { get; set; }
-
-        [JsonProperty("additionalInfo")]
-        public AdditionalInfo AdditionalInfo { get; set; }
+        [JsonProperty("availability")]
+        public string Availability { get; set; }
 
         [JsonProperty("measurementUnit")]
         public string MeasurementUnit { get; set; }
 
         [JsonProperty("unitMultiplier")]
-        public float UnitMultiplier { get; set; }
+        public long UnitMultiplier { get; set; }
 
-        [JsonProperty("sellingPrice")]
-        public int SellingPrice { get; set; }
-
-        [JsonProperty("isGift")]
-        public bool IsGift { get; set; }
-
-        [JsonProperty("shippingPrice")]
-        public string ShippingPrice { get; set; }
-
-        [JsonProperty("rewardValue")]
-        public int RewardValue { get; set; }
-
-        [JsonProperty("freightCommission")]
-        public int FreightCommission { get; set; }
-
-        [JsonProperty("priceDefinitions")]
-        public string PriceDefinitions { get; set; }
-
-        [JsonProperty("taxCode")]
-        public string TaxCode { get; set; }
-
-        [JsonProperty("parentItemIndex")]
-        public string ParentItemIndex { get; set; }
-
-        [JsonProperty("parentAssemblyBinding")]
-        public string ParentAssemblyBinding { get; set; }
+        [JsonProperty("manufacturerCode")]
+        public string ManufacturerCode { get; set; }
     }
 
     public class AdditionalInfo
     {
-        [JsonProperty("brandName")]
-        public string BrandName { get; set; }
-
-        [JsonProperty("brandId")]
-        public string BrandId { get; set; }
+        [JsonProperty("dimension")]
+        public Dimension Dimension { get; set; }
 
         [JsonProperty("categoriesIds")]
         public string CategoriesIds { get; set; }
@@ -397,70 +496,93 @@ namespace StorePickup.Models
         [JsonProperty("commercialConditionId")]
         public string CommercialConditionId { get; set; }
 
-        [JsonProperty("dimension")]
-        public Dimension Dimension { get; set; }
+        [JsonProperty("brandName")]
+        public string BrandName { get; set; }
+
+        [JsonProperty("brandId")]
+        public string BrandId { get; set; }
 
         [JsonProperty("offeringInfo")]
-        public string OfferingInfo { get; set; }
+        public object OfferingInfo { get; set; }
 
         [JsonProperty("offeringType")]
-        public string OfferingType { get; set; }
+        public object OfferingType { get; set; }
 
         [JsonProperty("offeringTypeId")]
-        public string OfferingTypeId { get; set; }
+        public object OfferingTypeId { get; set; }
     }
 
     public class Dimension
     {
         [JsonProperty("cubicweight")]
-        public float Cubicweight { get; set; }
+        public long Cubicweight { get; set; }
 
         [JsonProperty("height")]
-        public float Height { get; set; }
+        public long Height { get; set; }
 
         [JsonProperty("length")]
-        public float Length { get; set; }
+        public long Length { get; set; }
 
         [JsonProperty("weight")]
-        public float Weight { get; set; }
+        public long Weight { get; set; }
 
         [JsonProperty("width")]
-        public float Width { get; set; }
+        public long Width { get; set; }
     }
 
-    public class ItemAttachment
+    public class AttachmentOffering
     {
-        [JsonProperty("content")]
-        public Con Content { get; set; }
-
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("required")]
+        public bool AttachmentOfferingRequired { get; set; }
+
+        [JsonProperty("schema")]
+        public Schema Schema { get; set; }
     }
 
-    public class Con
+    public class PriceTag
     {
-    }
-
-    public class Marketplace
-    {
-        [JsonProperty("baseURL")]
-        public Uri BaseUrl { get; set; }
-
-        [JsonProperty("isCertified")]
-        public string IsCertified { get; set; }
-
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("rate")]
+        public double Rate { get; set; }
+
+        [JsonProperty("value")]
+        public long Value { get; set; }
+
+        [JsonProperty("rawValue")]
+        public double RawValue { get; set; }
+
+        [JsonProperty("jurisCode")]
+        public string JurisCode { get; set; }
+
+        [JsonProperty("jurisType")]
+        public string JurisType { get; set; }
+
+        [JsonProperty("jurisName")]
+        public string JurisName { get; set; }
+
+        [JsonProperty("isPercentual")]
+        public bool IsPercentual { get; set; }
+
+        [JsonProperty("identifier")]
+        public object Identifier { get; set; }
     }
 
-    public class PackageAttachment
+    public class OpenTextField
     {
-        [JsonProperty("packages")]
-        public List<string> Packages { get; set; }
+        [JsonProperty("value")]
+        public object Value { get; set; }
     }
 
     public class PaymentData
     {
+        [JsonProperty("giftCards")]
+        public List<object> GiftCards { get; set; }
+
         [JsonProperty("transactions")]
         public List<Transaction> Transactions { get; set; }
     }
@@ -478,6 +600,9 @@ namespace StorePickup.Models
 
         [JsonProperty("payments")]
         public List<Payment> Payments { get; set; }
+
+        [JsonProperty("sharedTransaction")]
+        public bool SharedTransaction { get; set; }
     }
 
     public class Payment
@@ -492,104 +617,141 @@ namespace StorePickup.Models
         public string PaymentSystemName { get; set; }
 
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public long Value { get; set; }
 
         [JsonProperty("installments")]
-        public int Installments { get; set; }
+        public long Installments { get; set; }
+
+        [JsonProperty("connectorResponses")]
+        public ConnectorResponses ConnectorResponses { get; set; }
 
         [JsonProperty("referenceValue")]
-        public int ReferenceValue { get; set; }
+        public long ReferenceValue { get; set; }
 
         [JsonProperty("cardHolder")]
-        public string CardHolder { get; set; }
+        public object CardHolder { get; set; }
 
         [JsonProperty("cardNumber")]
-        public string CardNumber { get; set; }
+        public object CardNumber { get; set; }
 
         [JsonProperty("firstDigits")]
-        public string FirstDigits { get; set; }
+        public object FirstDigits { get; set; }
 
         [JsonProperty("lastDigits")]
-        public string LastDigits { get; set; }
+        public object LastDigits { get; set; }
 
         [JsonProperty("cvv2")]
-        public string Cvv2 { get; set; }
+        public object Cvv2 { get; set; }
 
         [JsonProperty("expireMonth")]
-        public string ExpireMonth { get; set; }
+        public object ExpireMonth { get; set; }
 
         [JsonProperty("expireYear")]
-        public string ExpireYear { get; set; }
+        public object ExpireYear { get; set; }
 
         [JsonProperty("url")]
-        public string Url { get; set; }
+        public object Url { get; set; }
 
-        [JsonProperty("giftCardId")]
-        public string GiftCardId { get; set; }
+        [JsonProperty("koinUrl")]
+        public object KoinUrl { get; set; }
 
-        [JsonProperty("giftCardName")]
-        public string GiftCardName { get; set; }
-
-        [JsonProperty("giftCardCaption")]
-        public string GiftCardCaption { get; set; }
+        [JsonProperty("tid")]
+        public object Tid { get; set; }
 
         [JsonProperty("redemptionCode")]
-        public string RedemptionCode { get; set; }
+        public object RedemptionCode { get; set; }
+
+        [JsonProperty("giftCardId")]
+        public object GiftCardId { get; set; }
+
+        [JsonProperty("giftCardProvider")]
+        public object GiftCardProvider { get; set; }
+
+        [JsonProperty("giftCardAsDiscount")]
+        public object GiftCardAsDiscount { get; set; }
 
         [JsonProperty("group")]
         public string Group { get; set; }
 
-        [JsonProperty("tid")]
-        public string Tid { get; set; }
-
         [JsonProperty("dueDate")]
-        public DateTimeOffset? DueDate { get; set; }
+        public object DueDate { get; set; }
 
-        [JsonProperty("connectorResponses")]
-        public Con ConnectorResponses { get; set; }
+        [JsonProperty("accountId")]
+        public object AccountId { get; set; }
+
+        [JsonProperty("parentAccountId")]
+        public object ParentAccountId { get; set; }
+
+        [JsonProperty("bankIssuedInvoiceIdentificationNumber")]
+        public object BankIssuedInvoiceIdentificationNumber { get; set; }
+
+        [JsonProperty("bankIssuedInvoiceIdentificationNumberFormatted")]
+        public object BankIssuedInvoiceIdentificationNumberFormatted { get; set; }
+
+        [JsonProperty("bankIssuedInvoiceBarCodeNumber")]
+        public object BankIssuedInvoiceBarCodeNumber { get; set; }
+
+        [JsonProperty("bankIssuedInvoiceBarCodeType")]
+        public object BankIssuedInvoiceBarCodeType { get; set; }
+    }
+
+    public class ConnectorResponses
+    {
     }
 
     public class RatesAndBenefitsData
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("rateAndBenefitsIdentifiers")]
-        public List<RateAndBenefitsIdentifier> RateAndBenefitsIdentifiers { get; set; }
+        public List<object> RateAndBenefitsIdentifiers { get; set; }
+
+        [JsonProperty("teaser")]
+        public List<object> Teaser { get; set; }
     }
 
-    public class RateAndBenefitsIdentifier
+    public class ReceiptData
     {
-        [JsonProperty("id")]
-        public Guid Id { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("featured")]
-        public bool Featured { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
-
-        [JsonProperty("matchedParameters")]
-        public MatchedParameters MatchedParameters { get; set; }
-
-        [JsonProperty("additionalInfo")]
-        public object AdditionalInfo { get; set; }
+        [JsonProperty("ReceiptCollection")]
+        public List<ReceiptCollection> ReceiptCollection { get; set; }
     }
 
-    public class MatchedParameters
+    public class ReceiptCollection
     {
-        [JsonProperty("category@CatalogSystem", NullValueHandling = NullValueHandling.Ignore)]
-        public string CategoryCatalogSystem { get; set; }
+        [JsonProperty("ReceiptType")]
+        public string ReceiptType { get; set; }
 
-        [JsonProperty("slaIds", NullValueHandling = NullValueHandling.Ignore)]
-        public string SlaIds { get; set; }
+        [JsonProperty("Date")]
+        public string Date { get; set; }
+
+        [JsonProperty("ReceiptToken")]
+        public string ReceiptToken { get; set; }
+
+        [JsonProperty("Source")]
+        public string Source { get; set; }
+
+        [JsonProperty("InvoiceNumber")]
+        public object InvoiceNumber { get; set; }
+
+        [JsonProperty("TransactionId")]
+        public string TransactionId { get; set; }
+
+        [JsonProperty("MerchantName")]
+        public string MerchantName { get; set; }
+
+        [JsonProperty("SellerOrderId")]
+        public object SellerOrderId { get; set; }
+
+        [JsonProperty("ValueAsInt")]
+        public object ValueAsInt { get; set; }
     }
 
     public class Seller
     {
+        [JsonProperty("subSellerId")]
+        public string SubSellerId { get; set; }
+
+        [JsonProperty("fulfillmentEndpoint")]
+        public Uri FulfillmentEndpoint { get; set; }
+
         [JsonProperty("id")]
         public string Id { get; set; }
 
@@ -602,23 +764,23 @@ namespace StorePickup.Models
 
     public class ShippingData
     {
-        [JsonProperty("id")]
-        public string Id { get; set; }
-
         [JsonProperty("address")]
-        public OrderAddress Address { get; set; }
+        public Address Address { get; set; }
 
         [JsonProperty("logisticsInfo")]
         public List<LogisticsInfo> LogisticsInfo { get; set; }
 
-        [JsonProperty("trackingHints")]
-        public string TrackingHints { get; set; }
-
         [JsonProperty("selectedAddresses")]
-        public List<OrderAddress> SelectedAddresses { get; set; }
+        public List<Address> SelectedAddresses { get; set; }
+
+        [JsonProperty("availableAddresses")]
+        public List<Address> AvailableAddresses { get; set; }
+
+        [JsonProperty("pickupPoints")]
+        public List<PickupPoint> PickupPoints { get; set; }
     }
 
-    public class OrderAddress
+    public class Address
     {
         [JsonProperty("addressType")]
         public string AddressType { get; set; }
@@ -627,7 +789,10 @@ namespace StorePickup.Models
         public string ReceiverName { get; set; }
 
         [JsonProperty("addressId")]
-        public string AddressId { get; set; }
+        public Guid AddressId { get; set; }
+
+        [JsonProperty("isDisposable")]
+        public bool IsDisposable { get; set; }
 
         [JsonProperty("postalCode")]
         public string PostalCode { get; set; }
@@ -645,7 +810,7 @@ namespace StorePickup.Models
         public string Street { get; set; }
 
         [JsonProperty("number")]
-        public string Number { get; set; }
+        public object Number { get; set; }
 
         [JsonProperty("neighborhood")]
         public string Neighborhood { get; set; }
@@ -654,43 +819,25 @@ namespace StorePickup.Models
         public string Complement { get; set; }
 
         [JsonProperty("reference")]
-        public string Reference { get; set; }
+        public object Reference { get; set; }
 
         [JsonProperty("geoCoordinates")]
-        public List<string> GeoCoordinates { get; set; }
+        public List<double> GeoCoordinates { get; set; }
     }
 
     public class LogisticsInfo
     {
         [JsonProperty("itemIndex")]
-        public int ItemIndex { get; set; }
+        public long ItemIndex { get; set; }
 
         [JsonProperty("selectedSla")]
         public string SelectedSla { get; set; }
 
-        [JsonProperty("lockTTL")]
-        public string LockTtl { get; set; }
+        [JsonProperty("selectedDeliveryChannel")]
+        public string SelectedDeliveryChannel { get; set; }
 
-        [JsonProperty("price")]
-        public int Price { get; set; }
-
-        [JsonProperty("listPrice")]
-        public int ListPrice { get; set; }
-
-        [JsonProperty("sellingPrice")]
-        public int SellingPrice { get; set; }
-
-        [JsonProperty("deliveryWindow")]
-        public string DeliveryWindow { get; set; }
-
-        [JsonProperty("deliveryCompany")]
-        public string DeliveryCompany { get; set; }
-
-        [JsonProperty("shippingEstimate")]
-        public string ShippingEstimate { get; set; }
-
-        [JsonProperty("shippingEstimateDate")]
-        public DateTimeOffset ShippingEstimateDate { get; set; }
+        [JsonProperty("addressId")]
+        public Guid AddressId { get; set; }
 
         [JsonProperty("slas")]
         public List<Sla> Slas { get; set; }
@@ -698,56 +845,17 @@ namespace StorePickup.Models
         [JsonProperty("shipsTo")]
         public List<string> ShipsTo { get; set; }
 
-        [JsonProperty("deliveryIds")]
-        public List<DeliveryId> DeliveryIds { get; set; }
+        [JsonProperty("itemId")]
+        public string ItemId { get; set; }
 
-        [JsonProperty("deliveryChannel")]
-        public string DeliveryChannel { get; set; }
-
-        [JsonProperty("pickupStoreInfo")]
-        public PickupStoreInfo PickupStoreInfo { get; set; }
-
-        [JsonProperty("addressId")]
-        public string AddressId { get; set; }
-
-        [JsonProperty("polygonName")]
-        public string PolygonName { get; set; }
+        [JsonProperty("deliveryChannels")]
+        public List<DeliveryChannel> DeliveryChannels { get; set; }
     }
 
-    public class DeliveryId
+    public class DeliveryChannel
     {
-        [JsonProperty("courierId")]
-        public string CourierId { get; set; }
-
-        [JsonProperty("courierName")]
-        public string CourierName { get; set; }
-
-        [JsonProperty("dockId")]
-        public string DockId { get; set; }
-
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
-
-        [JsonProperty("warehouseId")]
-        public string WarehouseId { get; set; }
-    }
-
-    public class PickupStoreInfo
-    {
-        [JsonProperty("additionalInfo")]
-        public string AdditionalInfo { get; set; }
-
-        [JsonProperty("address")]
-        public OrderAddress Address { get; set; }
-
-        [JsonProperty("dockId")]
-        public string DockId { get; set; }
-
-        [JsonProperty("friendlyName")]
-        public string FriendlyName { get; set; }
-
-        [JsonProperty("isPickupStore")]
-        public bool IsPickupStore { get; set; }
+        [JsonProperty("id")]
+        public string Id { get; set; }
     }
 
     public class Sla
@@ -755,26 +863,122 @@ namespace StorePickup.Models
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        [JsonProperty("deliveryChannel")]
+        public string DeliveryChannel { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("deliveryIds")]
+        public List<DeliveryId> DeliveryIds { get; set; }
 
         [JsonProperty("shippingEstimate")]
         public string ShippingEstimate { get; set; }
 
+        [JsonProperty("shippingEstimateDate")]
+        public string ShippingEstimateDate { get; set; }
+
+        [JsonProperty("lockTTL")]
+        public string LockTtl { get; set; }
+
+        [JsonProperty("availableDeliveryWindows")]
+        public List<object> AvailableDeliveryWindows { get; set; }
+
         [JsonProperty("deliveryWindow")]
-        public string DeliveryWindow { get; set; }
+        public object DeliveryWindow { get; set; }
 
         [JsonProperty("price")]
-        public int Price { get; set; }
+        public long Price { get; set; }
 
-        [JsonProperty("deliveryChannel")]
-        public string DeliveryChannel { get; set; }
+        [JsonProperty("listPrice")]
+        public long ListPrice { get; set; }
+
+        [JsonProperty("tax")]
+        public long Tax { get; set; }
 
         [JsonProperty("pickupStoreInfo")]
         public PickupStoreInfo PickupStoreInfo { get; set; }
 
+        [JsonProperty("pickupPointId")]
+        public string PickupPointId { get; set; }
+
+        [JsonProperty("pickupDistance")]
+        public double PickupDistance { get; set; }
+
         [JsonProperty("polygonName")]
-        public string PolygonName { get; set; }
+        public object PolygonName { get; set; }
+
+        [JsonProperty("transitTime")]
+        public string TransitTime { get; set; }
+    }
+
+    public class DeliveryId
+    {
+        [JsonProperty("courierId")]
+        public string CourierId { get; set; }
+
+        [JsonProperty("warehouseId")]
+        public string WarehouseId { get; set; }
+
+        [JsonProperty("dockId")]
+        public string DockId { get; set; }
+
+        [JsonProperty("courierName")]
+        public string CourierName { get; set; }
+
+        [JsonProperty("quantity")]
+        public long Quantity { get; set; }
+
+        [JsonProperty("kitItemDetails")]
+        public List<object> KitItemDetails { get; set; }
+    }
+
+    public class PickupStoreInfo
+    {
+        [JsonProperty("isPickupStore")]
+        public bool IsPickupStore { get; set; }
+
+        [JsonProperty("friendlyName")]
+        public string FriendlyName { get; set; }
+
+        [JsonProperty("address")]
+        public Address Address { get; set; }
+
+        [JsonProperty("additionalInfo")]
+        public string AdditionalInfo { get; set; }
+
+        [JsonProperty("dockId")]
+        public string DockId { get; set; }
+    }
+
+    public class PickupPoint
+    {
+        [JsonProperty("friendlyName")]
+        public string FriendlyName { get; set; }
+
+        [JsonProperty("address")]
+        public Address Address { get; set; }
+
+        [JsonProperty("additionalInfo")]
+        public string AdditionalInfo { get; set; }
+
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("businessHours")]
+        public List<BusinessHour> BusinessHours { get; set; }
+    }
+
+    public class BusinessHour
+    {
+        [JsonProperty("DayOfWeek")]
+        public long DayOfWeek { get; set; }
+
+        [JsonProperty("OpeningTime")]
+        public string OpeningTime { get; set; }
+
+        [JsonProperty("ClosingTime")]
+        public string ClosingTime { get; set; }
     }
 
     public class StorePreferencesData
@@ -782,37 +986,40 @@ namespace StorePickup.Models
         [JsonProperty("countryCode")]
         public string CountryCode { get; set; }
 
+        [JsonProperty("saveUserData")]
+        public bool SaveUserData { get; set; }
+
+        [JsonProperty("timeZone")]
+        public string TimeZone { get; set; }
+
         [JsonProperty("currencyCode")]
         public string CurrencyCode { get; set; }
 
-        [JsonProperty("currencyFormatInfo")]
-        public CurrencyFormatInfo CurrencyFormatInfo { get; set; }
-
         [JsonProperty("currencyLocale")]
-        public int CurrencyLocale { get; set; }
+        public long CurrencyLocale { get; set; }
 
         [JsonProperty("currencySymbol")]
         public string CurrencySymbol { get; set; }
 
-        [JsonProperty("timeZone")]
-        public string TimeZone { get; set; }
+        [JsonProperty("currencyFormatInfo")]
+        public CurrencyFormatInfo CurrencyFormatInfo { get; set; }
     }
 
     public class CurrencyFormatInfo
     {
-        [JsonProperty("CurrencyDecimalDigits")]
-        public decimal CurrencyDecimalDigits { get; set; }
+        [JsonProperty("currencyDecimalDigits")]
+        public long CurrencyDecimalDigits { get; set; }
 
-        [JsonProperty("CurrencyDecimalSeparator")]
+        [JsonProperty("currencyDecimalSeparator")]
         public string CurrencyDecimalSeparator { get; set; }
 
-        [JsonProperty("CurrencyGroupSeparator")]
+        [JsonProperty("currencyGroupSeparator")]
         public string CurrencyGroupSeparator { get; set; }
 
-        [JsonProperty("CurrencyGroupSize")]
-        public int CurrencyGroupSize { get; set; }
+        [JsonProperty("currencyGroupSize")]
+        public long CurrencyGroupSize { get; set; }
 
-        [JsonProperty("StartsWithCurrencySymbol")]
+        [JsonProperty("startsWithCurrencySymbol")]
         public bool StartsWithCurrencySymbol { get; set; }
     }
 
@@ -825,36 +1032,6 @@ namespace StorePickup.Models
         public string Name { get; set; }
 
         [JsonProperty("value")]
-        public int Value { get; set; }
-    }
-
-    public class PriceTag
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("rate")]
-        public decimal Rate { get; set; }
-
-        [JsonProperty("value")]
-        public int Value { get; set; }
-
-        [JsonProperty("rawValue")]
-        public decimal RawValue { get; set; }
-
-        [JsonProperty("jurisCode")]
-        public string JurisCode { get; set; }
-
-        [JsonProperty("jurisType")]
-        public string JurisType { get; set; }
-
-        [JsonProperty("jurisName")]
-        public string JurisName { get; set; }
-
-        [JsonProperty("isPercentual")]
-        public bool IsPercentual { get; set; }
-
-        [JsonProperty("identifier")]
-        public object Identifier { get; set; }
+        public long Value { get; set; }
     }
 }

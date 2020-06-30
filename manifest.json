@@ -5,7 +5,22 @@
   "title": "Curbside Pickup",
   "description": "",
   "categories": [],
-  "settingsSchema": {},
+  "settingsSchema": {
+    "title": "Curbside Pickup",
+    "type": "object",
+    "properties": {
+      "appToken": {
+        "title": "App Token",
+        "description": "AppToken",
+        "type": "string"
+      },
+      "appKey": {
+        "title": "App Key",
+        "description": "AppKey",
+        "type": "string"
+      }
+    }
+  },
   "registries": [
     "smartcheckout"
   ],
@@ -77,8 +92,15 @@
     {
       "name": "outbound-access",
       "attrs": {
-        "host": "{{account}}.myvtex.com",
-        "path": "/api/do/notes"
+        "host": "mailservice.vtex.com.br",
+        "path": "/api/mail-service/pvt/sendmail"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "vtexid.vtex.com.br",
+        "path": "/api/vtexid/pub/authenticate/default"
       }
     },
     {
