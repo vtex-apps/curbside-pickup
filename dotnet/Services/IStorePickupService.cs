@@ -12,5 +12,6 @@ namespace StorePickup.Services
         Task<string> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order);
         Task<string> GetDefaultTemplateBody(string templateName);
         Task<bool> AddOrderComment(string message, string orderId);
+        Task<string> ProcessLink(string action, string id);
     }
 }

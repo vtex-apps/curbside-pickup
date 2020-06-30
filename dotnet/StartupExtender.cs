@@ -19,6 +19,7 @@ namespace Vtex
             services.AddSingleton<IVtexEnvironmentVariableProvider, VtexEnvironmentVariableProvider>();
             services.AddTransient<IStorePickupService, StorePickupService>();
             services.AddTransient<ICryptoService, CryptoService>();
+            services.AddTransient<IStorePickupRepository, StorePickupRepository>();
             services.AddHttpContextAccessor();
             services.AddHttpClient();
         }

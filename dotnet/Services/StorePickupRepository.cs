@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StorePickup.Data;
+using StorePickup.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,7 +12,7 @@ using Vtex.Api.Context;
 
 namespace StorePickup.Services
 {
-    public class StorePickupRepository
+    public class StorePickupRepository : IStorePickupRepository
     {
         private readonly IVtexEnvironmentVariableProvider _environmentVariableProvider;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -38,6 +39,60 @@ namespace StorePickup.Services
                 $"{this._environmentVariableProvider.ApplicationVendor}.{this._environmentVariableProvider.ApplicationName}";
 
             //this.VerifySchema();
+        }
+
+        public async Task<MerchantSettings> GetMerchantSettings()
+        {
+            // Load merchant settings
+            // 'http://apps.${region}.vtex.io/${account}/${workspace}/apps/${vendor.appName}/settings'
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"http://apps.{this._environmentVariableProvider.Region}.vtex.io/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_WORKSPACE]}/apps/{StorePickUpConstants.APP_SETTINGS}/settings"),
+            };
+
+            //Console.WriteLine($"Request URL = {request.RequestUri}");
+
+            string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
+            if (authToken != null)
+            {
+                request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
+                request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
+            }
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<MerchantSettings>(responseContent);
+        }
+
+        public async Task SetMerchantSettings(MerchantSettings merchantSettings)
+        {
+            if (merchantSettings == null)
+            {
+                merchantSettings = new MerchantSettings();
+            }
+
+            var jsonSerializedMerchantSettings = JsonConvert.SerializeObject(merchantSettings);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"http://apps.{this._environmentVariableProvider.Region}.vtex.io/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_WORKSPACE]}/apps/{StorePickUpConstants.APP_SETTINGS}/settings"),
+                Content = new StringContent(jsonSerializedMerchantSettings, Encoding.UTF8, StorePickUpConstants.APPLICATION_JSON)
+            };
+
+            string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
+            if (authToken != null)
+            {
+                request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
+                request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
+            }
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
         }
 
         //public async Task<bool> SavePickUpStatus()

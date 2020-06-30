@@ -64,11 +64,13 @@ namespace service.Controllers
             return status;
         }
 
-        public async Task<IActionResult> ProcessLink(string action, string id)
+        public async Task<IActionResult> ProcessMailLink(string linkAction, string arguments)
         {
-            ActionResult status = BadRequest();
-            
-            return status;
+            string redirectUrl = "~/";
+            Console.WriteLine($"ProcessLink {linkAction} on {arguments}");
+            redirectUrl = await _storePickupService.ProcessLink(linkAction, arguments);
+            Console.WriteLine($"redirectUrl = {redirectUrl}");
+            return Redirect(redirectUrl);
         }
     }
 }
