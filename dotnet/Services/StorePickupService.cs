@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Vtex.Api.Context;
 
 namespace StorePickup.Services
@@ -52,8 +53,9 @@ namespace StorePickup.Services
 
         }
 
-        public async Task<string> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order)
+        public async Task<bool> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order)
         {
+            bool success = false;
             MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
             if(string.IsNullOrEmpty(merchantSettings.AppKey) || string.IsNullOrEmpty(merchantSettings.AppToken))
             {
@@ -64,6 +66,7 @@ namespace StorePickup.Services
             string templateName = string.Empty;
             string subjectText = string.Empty;
             string toEmail = string.Empty;
+            string nextAction = string.Empty;
             string shopperEmail = order.ClientProfileData.Email;
             List<LogisticsInfo> pickUpItems = order.ShippingData.LogisticsInfo.Where(i => i.Slas.Any(s => s.PickupStoreInfo.IsPickupStore)).ToList();
             string storeEmail = string.Empty;
@@ -86,16 +89,19 @@ namespace StorePickup.Services
                     templateName = StorePickUpConstants.MailTemplates.AtLocation;
                     subjectText = StorePickUpConstants.TemplateSubject.AtLocation;
                     toEmail = storeEmail;
+                    nextAction = StorePickUpConstants.MailTemplates.PickedUp;
                     break;
                 case StorePickUpConstants.MailTemplateType.PackageReady:
                     templateName = StorePickUpConstants.MailTemplates.PackageReady;
                     subjectText = StorePickUpConstants.TemplateSubject.PackageReady;
                     toEmail = shopperEmail;
+                    nextAction = StorePickUpConstants.MailTemplates.AtLocation;
                     break;
                 case StorePickUpConstants.MailTemplateType.ReadyForPacking:
                     templateName = StorePickUpConstants.MailTemplates.ReadyForPacking;
                     subjectText = StorePickUpConstants.TemplateSubject.ReadyForPacking;
                     toEmail = storeEmail;
+                    nextAction = StorePickUpConstants.MailTemplates.PackageReady;
                     break;
                 case StorePickUpConstants.MailTemplateType.PickedUp:
                     templateName = StorePickUpConstants.MailTemplates.PickedUp;
@@ -108,7 +114,11 @@ namespace StorePickup.Services
 
             string encryptedOrderId = _cryptoService.EncryptString(order.ClientProfileData.Email, order.OrderId, _context.Vtex.Account);
             string queryText = $"{order.ClientProfileData.Email}|{encryptedOrderId}";
-            string queryArgs = _cryptoService.EncryptString(templateName, queryText, _context.Vtex.Account);
+            string queryArgs = HttpUtility.HtmlEncode(_cryptoService.EncryptString(nextAction, queryText, _context.Vtex.Account));
+            string cancelOrderQueryArgs = HttpUtility.HtmlEncode(_cryptoService.EncryptString(StorePickUpConstants.MailTemplates.CancelOrder, queryText, _context.Vtex.Account));
+            // https://sandboxusdev.myvtex.com/_v/pickup/notification/package-ready/{{queryArgs}}
+            string actionLink = $"https://{_context.Vtex.Host}/_v/pickup/notification/{nextAction}/{queryArgs}";
+            string cancelLink = $"https://{_context.Vtex.Host}/_v/pickup/notification/{StorePickUpConstants.MailTemplates.CancelOrder}/{cancelOrderQueryArgs}";
 
             EmailMessage emailMessage = new EmailMessage
             {
@@ -116,16 +126,22 @@ namespace StorePickup.Services
                 providerName = StorePickUpConstants.Acquirer,
                 jsonData = new JsonData
                 {
-                    to = toEmail,
-                    encryptedOrderId = encryptedOrderId,
-                    queryArgs = queryArgs
+                    order = order,
+                    curbsidePickup = new CurbsidePickup
+                    {
+                        actionLink = actionLink,
+                        cancelLink = cancelLink,
+                        encryptedOrderId = encryptedOrderId,
+                        toEmail = toEmail,
+                        queryArgs = queryArgs
+                    }
                 }
             };
 
             string accountName = _httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME].ToString();
             string message = JsonConvert.SerializeObject(emailMessage);
 
-            Console.WriteLine($"Email message = {message}");
+            //Console.WriteLine($"Email message = {message}");
 
             var request = new HttpRequestMessage
             {
@@ -134,6 +150,7 @@ namespace StorePickup.Services
                 Content = new StringContent(message, Encoding.UTF8, StorePickUpConstants.APPLICATION_JSON)
             };
 
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
             if (authToken != null)
             {
@@ -150,13 +167,16 @@ namespace StorePickup.Services
                 HttpResponseMessage responseMessage = await client.SendAsync(request);
                 string responseContent = await responseMessage.Content.ReadAsStringAsync();
                 responseText = $"[-] SendEmail [{responseMessage.StatusCode}] {responseContent}";
-                if(responseMessage.StatusCode.Equals(HttpStatusCode.NotFound))
+                _context.Vtex.Logger.Info("SendEmail", null, $"[{responseMessage.StatusCode}] {responseContent}");
+                success = responseMessage.IsSuccessStatusCode;
+                if (responseMessage.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
                     Console.WriteLine($"Template {templateName} not found.  Creating...");
                     string templateBody = await this.GetDefaultTemplateBody(templateName);
                     if (string.IsNullOrWhiteSpace(templateBody))
                     {
                         Console.WriteLine($"Failed to Load Template {templateName}");
+                        _context.Vtex.Logger.Info("SendEmail", "Create Template", $"Failed to Load Template {templateName}");
                     }
                     else
                     {
@@ -190,23 +210,27 @@ namespace StorePickup.Services
                             }
                         };
 
-                        // bool templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
-                        //if(templateExists)
-                        //{
-                        //    responseMessage = await client.SendAsync(request);
-                        //    responseContent = await responseMessage.Content.ReadAsStringAsync();
-                        //    responseText = $"[-] SendEmail Retry [{responseMessage.StatusCode}] {responseContent}";
-                        //}
+                        bool templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
+                        if (templateExists)
+                        {
+                            responseMessage = await client.SendAsync(request);
+                            responseContent = await responseMessage.Content.ReadAsStringAsync();
+                            responseText = $"[-] SendEmail Retry [{responseMessage.StatusCode}] {responseContent}";
+                            _context.Vtex.Logger.Info("SendEmail", "Retry", $"[{responseMessage.StatusCode}] {responseContent}");
+                            success = responseMessage.IsSuccessStatusCode;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 responseText = $"[-] SendEmail Failure [{ex.Message}]";
+                _context.Vtex.Logger.Error("SendEmail", null, "Failure", ex);
+                success = false;  //jic
             }
 
             Console.WriteLine(responseText);
-            return responseText;
+            return success;
         }
 
         public async Task<HookNotification> CreateOrUpdateHook()
@@ -244,6 +268,7 @@ namespace StorePickup.Services
                 Content = new StringContent(jsonSerializedOrderHook, Encoding.UTF8, StorePickUpConstants.APPLICATION_JSON)
             };
 
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
             if (authToken != null)
             {
@@ -259,6 +284,7 @@ namespace StorePickup.Services
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"[-] CreateOrUpdateHook Response {response.StatusCode} Content = '{responseContent}' [-]");
+            _context.Vtex.Logger.Info("CreateOrUpdateHook", "Response", $"[{response.StatusCode}] {responseContent}");
             if (response.IsSuccessStatusCode)
             {
                 createOrUpdateHookResponse = JsonConvert.DeserializeObject<HookNotification>(responseContent);
@@ -286,6 +312,7 @@ namespace StorePickup.Services
                     RequestUri = new Uri($"http://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.ENVIRONMENT}.com.br/api/checkout/pvt/orders/{orderId}")
                 };
 
+                request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
                 //request.Headers.Add(Constants.ACCEPT, Constants.APPLICATION_JSON);
                 //request.Headers.Add(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON);
                 string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
@@ -340,8 +367,11 @@ namespace StorePickup.Services
                                 if (pickUpItems != null && pickUpItems.Count > 0)
                                 {
                                     Console.WriteLine($"{pickUpItems.Count} Items for pickup.");
-                                    await this.SendEmail(StorePickUpConstants.MailTemplateType.ReadyForPacking, vtexOrder);
-                                    await this.AddOrderComment(StorePickUpConstants.OrderCommentText.ReadyForPacking, vtexOrder.OrderId);
+                                    success = await this.SendEmail(StorePickUpConstants.MailTemplateType.ReadyForPacking, vtexOrder);
+                                    if (success)
+                                    {
+                                        success = await this.AddOrderComment(StorePickUpConstants.OrderCommentText.ReadyForPacking, vtexOrder.OrderId);
+                                    }
                                 }
                                 else
                                 {
@@ -390,6 +420,7 @@ namespace StorePickup.Services
                 request.Headers.Add(StorePickUpConstants.PROXY_AUTHORIZATION_HEADER_NAME, authToken);
             }
 
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
             request.Headers.Add(StorePickUpConstants.AppKey, merchantSettings.AppKey);
             request.Headers.Add(StorePickUpConstants.AppToken, merchantSettings.AppToken);
@@ -398,6 +429,7 @@ namespace StorePickup.Services
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"[-] CreateOrUpdateTemplate Response {response.StatusCode} Content = '{responseContent}' [-]");
+            _context.Vtex.Logger.Info("Create Template", template.Name, $"[{response.StatusCode}] {responseContent}");
 
             return response.IsSuccessStatusCode;
         }
@@ -412,6 +444,7 @@ namespace StorePickup.Services
                 RequestUri = new Uri($"http://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.myvtex.com/api/template-render/pvt/templates/{templateName}")
             };
 
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
             if (authToken != null)
             {
@@ -436,6 +469,7 @@ namespace StorePickup.Services
                 RequestUri = new Uri($"{StorePickUpConstants.GitHubUrl}/{StorePickUpConstants.Repository}/{StorePickUpConstants.TemplateFolder}/{templateName}.{StorePickUpConstants.TemplateFileExtension}")
             };
 
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             string authToken = _context.Vtex.AuthToken;
             if (authToken != null)
             {
@@ -448,10 +482,15 @@ namespace StorePickup.Services
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"[-] GetDefaultTemplateBody [{response.StatusCode}] '{responseContent}' [-]");
-            if(response.IsSuccessStatusCode)
+            _context.Vtex.Logger.Info("GetDefaultTemplateBody", "Response", $"[{response.StatusCode}] {responseContent}");
+            if (response.IsSuccessStatusCode)
             {
                 templateBody = responseContent;
             }
+            else
+            {
+                Console.WriteLine($"[-] GetDefaultTemplateBody Failed [{StorePickUpConstants.GitHubUrl}/{StorePickUpConstants.Repository}/{StorePickUpConstants.TemplateFolder}/{templateName}.{StorePickUpConstants.TemplateFileExtension}]");
+            }    
 
             return templateBody;
         }
@@ -480,40 +519,42 @@ namespace StorePickup.Services
 
             var jsonSerializedMessage = JsonConvert.SerializeObject(orderComment);
 
-            Console.WriteLine($"Sending {jsonSerializedMessage} to http://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.LOCAL_ENVIRONMENT}.com/api/do/notes");
+            Console.WriteLine($"Sending {jsonSerializedMessage} to http://do.vtexcommercebeta.com.br/api/do/notes?an={this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}");
+
+            //  http://do.vtexcommercebeta.com.br/api/do/notes?an=sandboxusdev
 
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                RequestUri = new Uri($"http://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.LOCAL_ENVIRONMENT}.com/api/do/notes"),
+                RequestUri = new Uri($"https://do.vtexcommercebeta.com.br/api/do/notes?an={this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}"),
                 Content = new StringContent(jsonSerializedMessage, Encoding.UTF8, StorePickUpConstants.APPLICATION_JSON)
             };
 
-            string accessToken = await this.GetAccessToken();
+            //string accessToken = await this.GetAccessToken();
 
-            //request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             //string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
             string authToken = _context.Vtex.AuthToken;
             //string authToken = _context.Vtex.AdminUserAuthToken;
-            if (authToken != null && accessToken != null)
+            if (authToken != null && authToken != null)
             {
                 //Console.WriteLine($"authToken = [-]{authToken}[-]");
                 //Console.WriteLine($"accessToken = [-]{accessToken}[-]");
-                //request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
-                request.Headers.Add(StorePickUpConstants.PROXY_AUTHORIZATION_HEADER_NAME, authToken);
-                request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, accessToken);
+                request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
+                //request.Headers.Add(StorePickUpConstants.PROXY_AUTHORIZATION_HEADER_NAME, authToken);
+                //request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, accessToken);
             }
             else
             {
                 Console.WriteLine("Missing Token!");
             }
 
-            //MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
+            MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
             ////Console.WriteLine($"Key:[{merchantSettings.AppKey}] | Token:[{merchantSettings.AppToken}]");
-            //string appKey = merchantSettings.AppKey;
-            //string appToken = merchantSettings.AppToken;
-            //request.Headers.Add(StorePickUpConstants.AppKey, appKey);
-            //request.Headers.Add(StorePickUpConstants.AppToken, appToken);
+            string appKey = merchantSettings.AppKey;
+            string appToken = merchantSettings.AppToken;
+            request.Headers.Add(StorePickUpConstants.AppKey, appKey);
+            request.Headers.Add(StorePickUpConstants.AppToken, appToken);
 
             //request.Headers.Add(StorePickUpConstants.CONTENT_TYPE, StorePickUpConstants.APPLICATION_JSON);
 
@@ -529,8 +570,9 @@ namespace StorePickup.Services
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(StorePickUpConstants.APPLICATION_JSON));
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            //Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} Content = '{responseContent}' [-]");
-            Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} [-]");
+            Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} Content = '{responseContent}' [-]");
+            _context.Vtex.Logger.Info("AddOrderComment", null, $"{jsonSerializedMessage} [{response.StatusCode}] {responseContent}");
+            //Console.WriteLine($"[-] AddOrderComment Response {response.StatusCode} [-]");
 
             return response.IsSuccessStatusCode;
         }
@@ -581,6 +623,7 @@ namespace StorePickup.Services
                 string orderId = _cryptoService.DecryptString(email, args[1], _context.Vtex.Account);
 
                 Console.WriteLine($"{email} {orderId}");
+                _context.Vtex.Logger.Info("ProcessLink", null, $"{action} {email} {orderId}");
                 VtexOrder order = await this.GetOrderInformation(orderId);
                 bool mailSent = false;
                 switch (action)
@@ -599,7 +642,11 @@ namespace StorePickup.Services
                         break;
                     case StorePickUpConstants.MailTemplates.PickedUp:
                         await this.AddOrderComment(StorePickUpConstants.OrderCommentText.PickedUp, orderId);
-                        await this.SendEmail(StorePickUpConstants.MailTemplateType.PickedUp, order);
+                        //await this.SendEmail(StorePickUpConstants.MailTemplateType.PickedUp, order);
+                        break;
+                    default:
+                        Console.WriteLine($"ProcessLink {action} not implemented.");
+                        _context.Vtex.Logger.Info("ProcessLink", null, $"Link action '{action}' not implemented.");
                         break;
                 }
             }

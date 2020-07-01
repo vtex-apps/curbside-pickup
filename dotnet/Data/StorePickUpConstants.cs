@@ -6,8 +6,8 @@ namespace StorePickup.Data
 {
     public class StorePickUpConstants
     {
-        public const string AppToken = "X-VTEX-API-AppToken";
-        public const string AppKey = "X-VTEX-API-AppKey";
+        public const string AppToken = "X-Vtex-Api-AppToken";
+        public const string AppKey = "X-Vtex-Api-AppKey";
         public const string IsProduction = "X-Vtex-Workspace-Is-Production";
         public const string VtexIdCookie = "VtexIdclientAutCookie";
 
@@ -19,7 +19,7 @@ namespace StorePickup.Data
         public const string MailService = "http://mailservice.vtex.com.br/api/mail-service/pvt/sendmail";
         public const string Acquirer = "StorePickup";
 
-        public const string GitHubUrl = "http://raw.githubusercontent.com";
+        public const string GitHubUrl = "https://raw.githubusercontent.com";
         public const string Repository = "vtex-apps/curbside-pickup/master";
         public const string TemplateFolder = "templates";
         public const string TemplateFileExtension = "hbs";
@@ -29,7 +29,7 @@ namespace StorePickup.Data
 
         public const string ViewerCountry = "cloudfront-viewer-country";
         public const string ProviderId = "00000000-0000-0000-0000-000000000000";
-        public const string EmailTo = "{{to}}";
+        public const string EmailTo = "{{toEmail}}";
 
         public const string FORWARDED_HEADER = "X-Forwarded-For";
         public const string FORWARDED_HOST = "X-Forwarded-Host";
@@ -83,10 +83,12 @@ namespace StorePickup.Data
 
         public class MailTemplates
         {
-            public const string ReadyForPacking = "ready-for-packing";
-            public const string PackageReady = "package-ready";
-            public const string AtLocation = "at-location";
-            public const string PickedUp = "picked-up";
+            public const string ReadyForPacking = "curbside-ready-for-packing";
+            public const string PackageReady = "curbside-package-ready";
+            public const string AtLocation = "curbside-at-location";
+            public const string PickedUp = "curbside-picked-up";
+            public const string CancelOrder = "curbside-cancel-order";
+            public const string CancelPickUp = "curbside-cancel-pickup";
         }
 
         public class OrderCommentText
