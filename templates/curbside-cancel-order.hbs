@@ -1,0 +1,342 @@
+<!-- begin sum of taxes test -->
+{{eval "Handlebars.registerHelper('sumTaxes', function(items) {
+    var x = 0;
+    for(var i in items) {
+      if (items[i].id.toLowerCase().indexOf('tax') !== -1) {
+          x += items[i].value;
+      }
+    }
+    return x;
+  });"}}
+  
+{{eval "Handlebars.registerHelper('sumTaxesSku', function(items) {
+    var x = 0;
+    for(var i in items) {
+      if (items[i].name.indexOf('TAXHUB@') !== -1) {
+          x += items[i].value;
+      }
+    }
+    return x;
+  });"}}
+  
+{{eval "Handlebars.registerHelper('splitMail', function(title) {
+  var t = title.split('-');
+  return t[0];
+  });"}}
+  
+{{eval "Handlebars.registerHelper('index_of', function(context,ndx) {
+  return context[ndx];
+  });"}}
+
+
+                                
+<!-- end sum of taxes test -->
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office"
+    xmlns:v="urn:schemas-microsoft-com:vml"
+    style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; box-sizing: border-box; width: 100%; height: 100%; margin: 0; padding: 0; background: #f1f1f1 !important;">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{_accountInfo.TradingName}}</title>
+    <!--[if gte mso 9]>
+  <xml>
+    <o:OfficeDocumentSettings>
+    <o:AllowPNG/>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+  </xml>
+  <![endif]-->
+    <style>
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+    </style>
+    <style>
+        @media (max-width: 600px) {
+
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+        }
+    </style>
+    <style>
+        @media screen and (min-width: 30em) {
+
+            .ph4-ns {
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+            }
+
+            .mv4-ns {
+                margin-top: 2rem !important;
+                margin-bottom: 2rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body
+    style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; box-sizing: border-box; width: 100%; height: 100%; margin: 0; padding: 0; background: #f1f1f1 !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0"
+        style="box-sizing: border-box; margin: 0; padding: 0; background: #f1f1f1; border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; width: 100%; height: 100%; line-height: 100% !important; color: #000;">
+        <tr style="box-sizing: border-box !important;">
+            <td align="left" valign="top"
+                style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                <table class="mv4-ns" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"
+                    style="box-sizing: border-box; max-width: 40rem; width: 100%; background-color: #fff; border-collapse: collapse; border-spacing: 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #000; "
+                    bgcolor="#fff">
+
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns" style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; border-bottom-style: solid; border-bottom-width: 1px; border-color: #eee; width: 100%; padding-bottom: 2rem; text-align:left !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                            <h1 style="margin: 0; font-size: 22px; line-height: 58px; box-sizing: border-box !important; color: #000">
+                                Order #{{order.orderId}} is cancelled
+                            </h1>
+                            <div style="box-sizing: border-box; color: #777; margin-top: .5rem !important;">
+                                Order Date <span style="font-weight: 700 !important;">{{formatUSDate order.creationDate}}</span><br/>
+                                Name: <span style="font-weight: 700 !important;">{{order.clientProfileData.firstName}} {{order.clientProfileData.lastName}}</span><br/>
+                                Email: <span style="font-weight: 700 !important;">{{splitMail order.clientProfileData.email}}</span><br/>
+                                Phone: <span style="font-weight: 700 !important;">{{order.clientProfileData.phone}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns" style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; border-bottom-style: solid; border-bottom-width: 1px; border-color: #eee; width: 100%; padding-bottom: 2rem; text-align:left !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                            <h3 style="margin: 0; font-size: 16px; line-height: 36px; text-transform: uppercase; letter-spacing: 1.2pt; font-weight: 300; box-sizing: border-box; margin-top: 0 !important;">
+                                Payment
+                            </h3>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        						{{#each order.totals}}
+    								{{#if value}}
+    								{{#hasSubStr id "Tax"}}
+    								{{else}}
+										
+                                    <tr>
+                                       <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; padding-top: 0px; padding-bottom: 0px; font-family: Arial, sans-serif;" align="left">
+    										{{#eq id "Items"}}Subtotal ({{../subjectItemAttachment.totalItems}} items){{/eq}}
+											{{#eq id "Shipping"}}Shipping{{/eq}}
+											{{#eq id "Discounts"}}Discounts{{/eq}}
+											{{#eq id "Tax"}}Tax{{/eq}}
+											{{#eq id "Change"}}{{name}}{{/eq}}
+										  </td>
+                                        <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; padding-top: 0px; padding-bottom: 0px; text-align: right !important; font-family: Arial, sans-serif;" align="right">
+                                        $ {{formatUSDCurrency value}}
+                                        </td>
+                                    </tr>
+									{{/hasSubStr}}
+									{{/if}}
+								{{/each}}
+									{{#if (sumTaxes order.totals)}}
+                                        <tr>
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; padding-top: 0px; padding-bottom: 0px; font-family: Arial, sans-serif;" align="left">
+                                            Tax
+                                            </td>
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; padding-top: 0px; padding-bottom: 0px; text-align: right !important; font-family: Arial, sans-serif;" align="right">
+                                            $ {{formatUSDCurrency (sumTaxes order.totals)}}
+                                            </td>
+                                        </tr>
+									{{/if}}
+									{{#if order.value}}
+                                        <tr>
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; font-weight: 500; padding-top: 15px; padding-bottom: .25rem !important; font-family: Arial, sans-serif; border-top-style: solid; border-top-width: 1px; border-color: #CFCFCF; font-weight: bold;" align="left">Order Total</td>
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; font-weight: 500; padding-top: 15px; padding-bottom: .25rem; text-align: right !important; font-family: Arial, sans-serif; border-top-style: solid; border-top-width: 1px; border-color: #CFCFCF; font-weight: bold;" align="right">$ {{formatUSDCurrency order.value}}</td>
+                                        </tr>
+									{{/if}}
+                                        
+                                    {{#each order.paymentData.transactions}}
+                                        {{#compare payments.length "==" 1}}
+                                            {{#each payments}}
+                                                <tr>
+                                                    <td style="font-size: 12px; color: #777; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; padding-top: 0px; padding-bottom: 0px; font-family: Arial, sans-serif;" align="left">
+                                                    {{paymentSystemName}}
+                                                    {{#if lastDigits}} last digits {{lastDigits}} {{/if}}
+                                                    </td>
+                                                    <td style="font-size: 12px; color: #777; line-height: 20px; box-sizing: border-box; border-collapse: collapse; padding-top: 0px; padding-bottom: 0px; text-align: right !important; font-family: Arial, sans-serif;" align="right">
+                                                    $ {{formatUSDCurrency value}}
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                        {{/compare}}
+                                    {{/each}}
+                                </table>
+                        </td>
+                    </tr>
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns" style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; border-bottom-style: solid; border-bottom-width: 1px; border-color: #eee; width: 100%; padding-bottom: 2rem; text-align:left !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                            <h3 style="margin: 0; font-size: 16px; line-height: 30px; text-transform: uppercase; letter-spacing: 1.2pt; font-weight: 300; box-sizing: border-box; margin-top: 10px !important;">
+                                Summary of your order
+                            </h3>
+                            <!-- PickUp -->
+                            Pickup at Store: {{slas.0.pickupStoreInfo.friendlyName}}<br/>
+                            
+                            {{#each order.shippingData.logisticsInfo}}
+                                {{#eq selectedDeliveryChannel "pickup-in-point"}}
+                                    </br>
+                                    {{#each ../order.items}}
+                                        {{#eq ../itemIndex @index}}
+                                         <table>
+                                            <tr style="box-sizing: border-box !important;">
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; width: 4rem; padding-right: .5rem; padding-top: .5rem; padding-bottom: .5rem; vertical-align: top; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;" align="left" valign="top">
+                                                <img alt="" src="{{imageUrl}}" style="vertical-align: top; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100% !important;" />
+                                            </td>
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; padding-top: .5rem; padding-bottom: .5rem; vertical-align: top !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                                                align="left" valign="top">
+                                                <div class="mv1-ns" style="box-sizing: border-box; line-height: 1.25; !important;">
+                                                    {{name}}
+                                                </div>
+                                                <div style="box-sizing: border-box; font-size: 14px; !important;">
+                                                <b>{{quantity}}</b> quantity
+                                                </div>
+                                                <div style="box-sizing: border-box; font-size: 14px; !important;">
+                                                ALU Code: {{refId}}
+                                                </div>
+                                                <div style="box-sizing: border-box; !important;">
+                                                    
+                                                    {{#if sellingPrice}}
+                                                    Price: <b>$ {{formatUSDCurrency sellingPrice}}</b>
+                                                    {{else}}
+                                                    Free
+                                                    {{/if}}
+                                                </div>
+                                                <div style="box-sizing: border-box; !important;">
+                                                    Tax: $ {{formatUSDCurrency (sumTaxesSku priceTags)}}
+                                                </div>
+                                            </td>
+                                            </tr>
+                                        </table>
+                                       {{/eq}}     
+                                    {{/each}}
+                                {{/eq}}
+                            {{/each}}
+                        </td>
+                    </tr>    
+                    <!-- Other delivery types --> 
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns" style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; border-top-style: solid; border-top-width: 1px; border-color: #eee; padding-top: 1.5rem; padding-bottom: 1rem !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;" align="left">
+                            Others<br/>
+                            {{#each order.shippingData.logisticsInfo}}
+                            {{#eq selectedDeliveryChannel "pickup-in-point"}}
+                            {{else}}
+                                    {{#each ../order.items}}
+                                        {{#eq ../itemIndex @index}}
+                                         <table>
+                                            <tr style="box-sizing: border-box !important;">
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; width: 4rem; padding-right: .5rem; padding-top: .5rem; padding-bottom: .5rem; vertical-align: top; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;" align="left" valign="top">
+                                                <img alt="" src="{{imageUrl}}" style="vertical-align: top; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; max-width: 100% !important;" />
+                                            </td>
+                                            <td style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; padding-top: .5rem; padding-bottom: .5rem; vertical-align: top !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                                                align="left" valign="top">
+                                                <div class="mv1-ns" style="box-sizing: border-box; line-height: 1.25; !important;">
+                                                    {{name}}
+                                                </div>
+                                                <div style="box-sizing: border-box; font-size: 14px; !important;">
+                                                <b>{{quantity}}</b> quantity
+                                                </div>
+                                                <div style="box-sizing: border-box; font-size: 14px; !important;">
+                                                ALU Code: {{refId}}
+                                                </div>
+                                                <div style="box-sizing: border-box; !important;">
+                                                    
+                                                    {{#if sellingPrice}}
+                                                    Price: <b>$ {{formatUSDCurrency sellingPrice}}</b>
+                                                    {{else}}
+                                                    Free
+                                                    {{/if}}
+                                                </div>
+                                                <div style="box-sizing: border-box; !important;">
+                                                    Tax: $ {{formatUSDCurrency (sumTaxesSku priceTags)}}
+                                                </div>
+                                            </td>
+                                            </tr>
+                                        </table>
+                                       {{/eq}}     
+                                    {{/each}}
+                            {{/eq}}
+                            {{/each}}
+                        </td>
+                    </tr>    
+                            
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns"
+                            style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; border-top-style: solid; border-top-width: 1px; border-color: #eee; padding-top: 1.5rem; padding-bottom: 1rem !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                            align="left">
+                            <span>Please sign here:</span>
+                            <div
+                            style="font-size: 10px;width:100%;left:50%;height:20px;line-height:20px;border-top:2px solid #D4D4D4;text-align:center;color:#333333">
+                            Customer Signature
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns"
+                            style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; border-top-style: solid; border-top-width: 1px; border-color: #eee; padding-top: 1.5rem; padding-bottom: 1rem !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                            align="left">
+                            <span>Employee code:</span>
+                            <div
+                            style="font-size: 10px;width:100%;left:50%;height:20px;line-height:20px;border-top:2px solid #D4D4D4;text-align:center;color:#333333">
+                            RPro Number
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns"
+                            style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; border-top-style: solid; border-top-width: 1px; border-color: #eee; padding-top: 1rem; padding-bottom: 1rem !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                            align="left">
+                            <p style="box-sizing: border-box !important;">
+                            <a href="{{curbsidePickup.actionLink}}"> 1. Click here to notify the customer that the order is ready for pickup.</a>
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns"
+                            style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; border-top-style: solid; border-top-width: 1px; border-color: #eee; padding-top: 1rem; padding-bottom: 1rem !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                            align="left">
+                            <p style="box-sizing: border-box !important;">
+                            <a href="{{curbsidePickup.cancelLink}}"> Cancel the Order.</a>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr style="box-sizing: border-box !important;">
+                        <td class="ph4-ns"
+                            style="font-size: 14px; line-height: 20px; box-sizing: border-box; border-collapse: collapse; text-align: left; border-top-style: solid; border-top-width: 1px; border-color: #eee; padding-top: 1rem; padding-bottom: 1rem !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;"
+                            align="left">
+                            <p style="box-sizing: border-box !important;">
+                                Regards,<br />Team {{_accountInfo.CompanyName}}.
+                            </p>
+                            <p>
+                                <span>Email Us:
+                                    <a class="" href="mailto: support@storedomain.com"
+                                        target="_blank">support@storedomain.com</a>
+                                </span>
+                                <br />
+                                <span>Toll Free:
+                                    <a class="" href="tel: +11111111111">1-111-111-1111</a>
+                                </span>
+                                <br />
+                                <span>International:
+                                    <a class="" href="tel: +11111111111">1-111-111-1111</a>
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
