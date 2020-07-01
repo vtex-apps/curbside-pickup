@@ -22,7 +22,7 @@ namespace StorePickup.Data
         public const string GitHubUrl = "https://raw.githubusercontent.com";
         public const string Repository = "vtex-apps/curbside-pickup/master";
         public const string TemplateFolder = "templates";
-        public const string TemplateFileExtension = "hbs";
+        public const string TemplateFileExtension = "json";
 
         public const string CommentDomain = "oms";
         public const string CommentType = "order";
@@ -124,6 +124,8 @@ namespace StorePickup.Data
             public const string ThankYou = "thanks";
             public const string Cancelled = "cancelled";
             public const string Error = "oops";
+            public const string Handover = "handover";
+            public const string Notified = "notified";
         }
 
         public enum MailTemplateType
