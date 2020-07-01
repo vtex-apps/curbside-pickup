@@ -114,12 +114,12 @@ namespace StorePickup.Services
 
             string encryptedOrderId = _cryptoService.EncryptString(order.ClientProfileData.Email, order.OrderId, _context.Vtex.Account);
             string queryText = $"{order.ClientProfileData.Email}|{encryptedOrderId}";
-            string queryArgs = HttpUtility.HtmlEncode(_cryptoService.EncryptString(nextAction, queryText, _context.Vtex.Account));
-            string cancelOrderQueryArgs = HttpUtility.HtmlEncode(_cryptoService.EncryptString(StorePickUpConstants.MailTemplates.CancelOrder, queryText, _context.Vtex.Account));
+            string queryArgs = Uri.EscapeDataString(_cryptoService.EncryptString(nextAction, queryText, _context.Vtex.Account));
+            string cancelOrderQueryArgs = Uri.EscapeDataString(_cryptoService.EncryptString(StorePickUpConstants.MailTemplates.CancelOrder, queryText, _context.Vtex.Account));
             // https://sandboxusdev.myvtex.com/_v/pickup/notification/package-ready/{{queryArgs}}
             string actionLink = $"https://{_context.Vtex.Host}/_v/pickup/notification/{nextAction}/{queryArgs}";
             string cancelLink = $"https://{_context.Vtex.Host}/_v/pickup/notification/{StorePickUpConstants.MailTemplates.CancelOrder}/{cancelOrderQueryArgs}";
-
+            
             EmailMessage emailMessage = new EmailMessage
             {
                 templateName = templateName,
@@ -167,12 +167,14 @@ namespace StorePickup.Services
                 HttpResponseMessage responseMessage = await client.SendAsync(request);
                 string responseContent = await responseMessage.Content.ReadAsStringAsync();
                 responseText = $"[-] SendEmail [{responseMessage.StatusCode}] {responseContent}";
-                _context.Vtex.Logger.Info("SendEmail", null, $"[{responseMessage.StatusCode}] {responseContent}");
+                _context.Vtex.Logger.Info("SendEmail", null, $"{toEmail} [{responseMessage.StatusCode}] {responseContent}");
+                //_context.Vtex.Logger.Info("SendEmail", null, $"{message}");
+                //Console.WriteLine($"Message = [{message}]");
                 success = responseMessage.IsSuccessStatusCode;
                 if (responseMessage.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
                     Console.WriteLine($"Template {templateName} not found.  Creating...");
-                    string templateBody = await this.GetDefaultTemplateBody(templateName);
+                    string templateBody = await this.GetDefaultTemplate(templateName);
                     if (string.IsNullOrWhiteSpace(templateBody))
                     {
                         Console.WriteLine($"Failed to Load Template {templateName}");
@@ -180,35 +182,37 @@ namespace StorePickup.Services
                     }
                     else
                     {
-                        EmailTemplate emailTemplate = new EmailTemplate
-                        {
-                            Name = templateName,
-                            FriendlyName = subjectText,
-                            Type = string.Empty,
-                            IsDefaultTemplate = false,
-                            IsPersisted = true,
-                            IsRemoved = false,
-                            Templates = new Templates
-                            {
-                                Email = new Email
-                                {
-                                    IsActive = true,
-                                    WithError = false,
-                                    Message = templateBody,
-                                    Subject = subjectText,
-                                    To = StorePickUpConstants.EmailTo,
-                                    Cc = string.Empty,
-                                    Bcc = string.Empty,
-                                    Type = StorePickUpConstants.TemplateType.Email,
-                                    ProviderId = StorePickUpConstants.ProviderId
-                                },
-                                Sms = new Sms
-                                {
-                                    Type = StorePickUpConstants.TemplateType.SMS,
-                                    Parameters = new List<object>()
-                                }
-                            }
-                        };
+                        EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
+
+                        //EmailTemplate emailTemplate = new EmailTemplate
+                        //{
+                        //    Name = templateName,
+                        //    FriendlyName = subjectText,
+                        //    Type = string.Empty,
+                        //    IsDefaultTemplate = false,
+                        //    IsPersisted = true,
+                        //    IsRemoved = false,
+                        //    Templates = new Templates
+                        //    {
+                        //        Email = new Email
+                        //        {
+                        //            IsActive = true,
+                        //            WithError = false,
+                        //            Message = templateBody,
+                        //            Subject = subjectText,
+                        //            To = StorePickUpConstants.EmailTo,
+                        //            Cc = string.Empty,
+                        //            Bcc = string.Empty,
+                        //            Type = StorePickUpConstants.TemplateType.Email,
+                        //            ProviderId = StorePickUpConstants.ProviderId
+                        //        },
+                        //        Sms = new Sms
+                        //        {
+                        //            Type = StorePickUpConstants.TemplateType.SMS,
+                        //            Parameters = new List<object>()
+                        //        }
+                        //    }
+                        //};
 
                         bool templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
                         if (templateExists)
@@ -460,7 +464,7 @@ namespace StorePickup.Services
             return (int)response.StatusCode == StatusCodes.Status200OK;
         }
 
-        public async Task<string> GetDefaultTemplateBody(string templateName)
+        public async Task<string> GetDefaultTemplate(string templateName)
         {
             string templateBody = string.Empty;
             var request = new HttpRequestMessage
@@ -481,15 +485,15 @@ namespace StorePickup.Services
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"[-] GetDefaultTemplateBody [{response.StatusCode}] '{responseContent}' [-]");
-            _context.Vtex.Logger.Info("GetDefaultTemplateBody", "Response", $"[{response.StatusCode}] {responseContent}");
+            Console.WriteLine($"[-] GetDefaultTemplate [{response.StatusCode}] '{responseContent}' [-]");
+            _context.Vtex.Logger.Info("GetDefaultTemplate", "Response", $"[{response.StatusCode}] {responseContent}");
             if (response.IsSuccessStatusCode)
             {
                 templateBody = responseContent;
             }
             else
             {
-                Console.WriteLine($"[-] GetDefaultTemplateBody Failed [{StorePickUpConstants.GitHubUrl}/{StorePickUpConstants.Repository}/{StorePickUpConstants.TemplateFolder}/{templateName}.{StorePickUpConstants.TemplateFileExtension}]");
+                Console.WriteLine($"[-] GetDefaultTemplate Failed [{StorePickUpConstants.GitHubUrl}/{StorePickUpConstants.Repository}/{StorePickUpConstants.TemplateFolder}/{templateName}.{StorePickUpConstants.TemplateFileExtension}]");
             }    
 
             return templateBody;
@@ -613,7 +617,8 @@ namespace StorePickup.Services
             //}
 
             string baseUrl = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.FORWARDED_HOST];
-            string returnUrl = $"https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.RedirectPage.ThankYou}";
+            string returnUrl = $"https://{baseUrl}/{StorePickUpConstants.AppName}/";
+
             try
             {
                 string argsText = _cryptoService.DecryptString(action, id, _context.Vtex.Account);
@@ -631,18 +636,22 @@ namespace StorePickup.Services
                     case StorePickUpConstants.MailTemplates.ReadyForPacking:
                         await this.AddOrderComment(StorePickUpConstants.OrderCommentText.ReadyForPacking, orderId);
                         await this.SendEmail(StorePickUpConstants.MailTemplateType.ReadyForPacking, order);
+                        //returnUrl = $"{returnUrl}{StorePickUpConstants.RedirectPage.Notified}";
                         break;
                     case StorePickUpConstants.MailTemplates.PackageReady:
                         await this.AddOrderComment(StorePickUpConstants.OrderCommentText.PackageReady, orderId);
                         await this.SendEmail(StorePickUpConstants.MailTemplateType.PackageReady, order);
+                        returnUrl = $"{returnUrl}{StorePickUpConstants.RedirectPage.Notified}";
                         break;
                     case StorePickUpConstants.MailTemplates.AtLocation:
                         await this.AddOrderComment(StorePickUpConstants.OrderCommentText.AtLocation, orderId);
                         await this.SendEmail(StorePickUpConstants.MailTemplateType.AtLocation, order);
+                        returnUrl = $"{returnUrl}{StorePickUpConstants.RedirectPage.ThankYou}";
                         break;
                     case StorePickUpConstants.MailTemplates.PickedUp:
                         await this.AddOrderComment(StorePickUpConstants.OrderCommentText.PickedUp, orderId);
                         //await this.SendEmail(StorePickUpConstants.MailTemplateType.PickedUp, order);
+                        returnUrl = $"{returnUrl}{StorePickUpConstants.RedirectPage.Handover}";
                         break;
                     default:
                         Console.WriteLine($"ProcessLink {action} not implemented.");
