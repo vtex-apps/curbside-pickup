@@ -9,7 +9,7 @@ namespace StorePickup.Services
         Task<HookNotification> CreateOrUpdateHook();
         Task<VtexOrder> GetOrderInformation(string orderId);
         Task<bool> ProcessNotification(HookNotification hookNotification);
-        Task<string> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order);
+        Task<bool> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order);
         Task<string> GetDefaultTemplateBody(string templateName);
         Task<bool> AddOrderComment(string message, string orderId);
         Task<string> ProcessLink(string action, string id);

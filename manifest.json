@@ -120,6 +120,13 @@
       }
     },
     {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "do.vtexcommercebeta.com.br",
+        "path": "/api/do/notes"
+      }
+    },
+    {
       "name": "vbase-read-write"
     }
   ],

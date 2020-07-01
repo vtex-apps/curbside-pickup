@@ -789,7 +789,7 @@ namespace StorePickup.Models
         public string ReceiverName { get; set; }
 
         [JsonProperty("addressId")]
-        public Guid AddressId { get; set; }
+        public string AddressId { get; set; }
 
         [JsonProperty("isDisposable")]
         public bool IsDisposable { get; set; }
@@ -837,7 +837,7 @@ namespace StorePickup.Models
         public string SelectedDeliveryChannel { get; set; }
 
         [JsonProperty("addressId")]
-        public Guid AddressId { get; set; }
+        public string AddressId { get; set; }
 
         [JsonProperty("slas")]
         public List<Sla> Slas { get; set; }

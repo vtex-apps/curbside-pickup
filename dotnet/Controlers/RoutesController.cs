@@ -3,6 +3,7 @@ namespace service.Controllers
     using System;
     using System.Net;
     using System.Threading.Tasks;
+    using System.Web;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
@@ -67,6 +68,8 @@ namespace service.Controllers
         public async Task<IActionResult> ProcessMailLink(string linkAction, string arguments)
         {
             string redirectUrl = "~/";
+            //arguments = HttpUtility.HtmlDecode(arguments);
+            arguments = Uri.UnescapeDataString(arguments);
             Console.WriteLine($"ProcessLink {linkAction} on {arguments}");
             redirectUrl = await _storePickupService.ProcessLink(linkAction, arguments);
             Console.WriteLine($"redirectUrl = {redirectUrl}");
