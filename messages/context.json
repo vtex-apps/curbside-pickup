@@ -1,3 +1,10 @@
 {
-    "admin/curbside.title": "Curbside Pickup"
+  "admin/curbside.title": "Curbside Pickup",
+  "admin/curbside.templates.title": "Email templates",
+  "admin/curbside.template.at-location": "\"At location\" email template",
+  "admin/curbside.template.cancel-order": "\"Cancel order\" email template",
+  "admin/curbside.template.package-ready": "\"Package ready\" email template",
+  "admin/curbside.template.ready-for-packing": "\"Ready for packing\" email template",
+  "admin/curbside.settings.title": "Settings",
+  "admin/curbside.settings.link": "App settings"
 }
