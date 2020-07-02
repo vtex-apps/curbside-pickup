@@ -24,7 +24,7 @@ const CurbsideIndex: FC = ({ intl }: any) => {
       }
       fullWidth
     >
-      <div className="bg-muted-5 pa4 w-50">
+      <div className="bg-muted-5 pa4 w-70-m w-50-l w-100-s">
         <Box
           title={intl.formatMessage({ id: 'admin/curbside.templates.title' })}
           fit="none"
