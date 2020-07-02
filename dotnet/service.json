@@ -15,6 +15,10 @@
     "createHook": {
       "path": "/_v/pickup/create-hook",
       "public": true
+    },
+    "createDefaultTemplates": {
+      "path": "/_v/pickup/create-templates",
+      "public": true
     }
   },
   "events": {

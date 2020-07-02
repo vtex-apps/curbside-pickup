@@ -182,37 +182,37 @@ namespace StorePickup.Services
                     }
                     else
                     {
-                        EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
+                        //EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
 
-                        //EmailTemplate emailTemplate = new EmailTemplate
-                        //{
-                        //    Name = templateName,
-                        //    FriendlyName = subjectText,
-                        //    Type = string.Empty,
-                        //    IsDefaultTemplate = false,
-                        //    IsPersisted = true,
-                        //    IsRemoved = false,
-                        //    Templates = new Templates
-                        //    {
-                        //        Email = new Email
-                        //        {
-                        //            IsActive = true,
-                        //            WithError = false,
-                        //            Message = templateBody,
-                        //            Subject = subjectText,
-                        //            To = StorePickUpConstants.EmailTo,
-                        //            Cc = string.Empty,
-                        //            Bcc = string.Empty,
-                        //            Type = StorePickUpConstants.TemplateType.Email,
-                        //            ProviderId = StorePickUpConstants.ProviderId
-                        //        },
-                        //        Sms = new Sms
-                        //        {
-                        //            Type = StorePickUpConstants.TemplateType.SMS,
-                        //            Parameters = new List<object>()
-                        //        }
-                        //    }
-                        //};
+                        EmailTemplate emailTemplate = new EmailTemplate
+                        {
+                            Name = templateName,
+                            FriendlyName = subjectText,
+                            Type = string.Empty,
+                            IsDefaultTemplate = false,
+                            IsPersisted = true,
+                            IsRemoved = false,
+                            Templates = new Templates
+                            {
+                                Email = new Email
+                                {
+                                    IsActive = true,
+                                    WithError = false,
+                                    Message = templateBody,
+                                    Subject = subjectText,
+                                    To = StorePickUpConstants.EmailTo,
+                                    Cc = string.Empty,
+                                    Bcc = string.Empty,
+                                    Type = StorePickUpConstants.TemplateType.Email,
+                                    ProviderId = StorePickUpConstants.ProviderId
+                                },
+                                Sms = new Sms
+                                {
+                                    Type = StorePickUpConstants.TemplateType.SMS,
+                                    Parameters = new List<object>()
+                                }
+                            }
+                        };
 
                         bool templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
                         if (templateExists)
@@ -235,6 +235,83 @@ namespace StorePickup.Services
 
             Console.WriteLine(responseText);
             return success;
+        }
+
+        public async Task<bool> CreateDefaultTemplate(StorePickUpConstants.MailTemplateType templateType)
+        {
+            bool templateExists = false;
+            string templateName = string.Empty;
+            string subjectText = string.Empty;
+
+            switch (templateType)
+            {
+                case StorePickUpConstants.MailTemplateType.AtLocation:
+                    templateName = StorePickUpConstants.MailTemplates.AtLocation;
+                    subjectText = StorePickUpConstants.TemplateSubject.AtLocation;
+                    break;
+                case StorePickUpConstants.MailTemplateType.PackageReady:
+                    templateName = StorePickUpConstants.MailTemplates.PackageReady;
+                    subjectText = StorePickUpConstants.TemplateSubject.PackageReady;
+                    break;
+                case StorePickUpConstants.MailTemplateType.ReadyForPacking:
+                    templateName = StorePickUpConstants.MailTemplates.ReadyForPacking;
+                    subjectText = StorePickUpConstants.TemplateSubject.ReadyForPacking;
+                    break;
+                case StorePickUpConstants.MailTemplateType.PickedUp:
+                    templateName = StorePickUpConstants.MailTemplates.PickedUp;
+                    subjectText = StorePickUpConstants.TemplateSubject.PickedUp;
+                    break;
+            }
+
+            templateExists = await this.TemplateExists(templateName);
+            if (!templateExists)
+            {
+                string templateBody = await this.GetDefaultTemplate(templateName);
+                if (string.IsNullOrWhiteSpace(templateBody))
+                {
+                    Console.WriteLine($"Failed to Load Template {templateName}");
+                    _context.Vtex.Logger.Info("SendEmail", "Create Template", $"Failed to Load Template {templateName}");
+                }
+                else
+                {
+                    //EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
+
+                    EmailTemplate emailTemplate = new EmailTemplate
+                    {
+                        Name = templateName,
+                        FriendlyName = subjectText,
+                        Type = string.Empty,
+                        IsDefaultTemplate = false,
+                        IsPersisted = true,
+                        IsRemoved = false,
+                        Templates = new Templates
+                        {
+                            Email = new Email
+                            {
+                                IsActive = true,
+                                WithError = false,
+                                Message = templateBody,
+                                Subject = subjectText,
+                                To = StorePickUpConstants.EmailTo,
+                                Cc = string.Empty,
+                                Bcc = string.Empty,
+                                Type = StorePickUpConstants.TemplateType.Email,
+                                ProviderId = StorePickUpConstants.ProviderId
+                            },
+                            Sms = new Sms
+                            {
+                                Type = StorePickUpConstants.TemplateType.SMS,
+                                Parameters = new List<object>()
+                            }
+                        }
+                    };
+
+                    //templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
+                    //templateExists = await this.CreateOrUpdateTemplate(templateName);
+                }
+            }
+
+            return templateExists;
         }
 
         public async Task<HookNotification> CreateOrUpdateHook()
@@ -404,11 +481,9 @@ namespace StorePickup.Services
             return success;
         }
 
-        public async Task<bool> CreateOrUpdateTemplate(EmailTemplate template)
+        public async Task<bool> CreateOrUpdateTemplate(string jsonSerializedTemplate)
         {
             // POST: "http://hostname/api/template-render/pvt/templates"
-
-            var jsonSerializedTemplate = JsonConvert.SerializeObject(template);
 
             var request = new HttpRequestMessage
             {
@@ -433,9 +508,15 @@ namespace StorePickup.Services
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"[-] CreateOrUpdateTemplate Response {response.StatusCode} Content = '{responseContent}' [-]");
-            _context.Vtex.Logger.Info("Create Template", template.Name, $"[{response.StatusCode}] {responseContent}");
+            _context.Vtex.Logger.Info("Create Template", null, $"[{response.StatusCode}] {responseContent}");
 
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> CreateOrUpdateTemplate(EmailTemplate template)
+        {
+            string jsonSerializedTemplate = JsonConvert.SerializeObject(template);
+            return await this.CreateOrUpdateTemplate(jsonSerializedTemplate);
         }
 
         public async Task<bool> TemplateExists(string templateName)
@@ -448,18 +529,26 @@ namespace StorePickup.Services
                 RequestUri = new Uri($"http://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.myvtex.com/api/template-render/pvt/templates/{templateName}")
             };
 
-            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
+            //request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
             string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
             if (authToken != null)
             {
                 request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
-                //request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
+                request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
             }
+
+            MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
+            Console.WriteLine($"Key:[{merchantSettings.AppKey}] | Token:[{merchantSettings.AppToken}]");
+            string appKey = merchantSettings.AppKey;
+            string appToken = merchantSettings.AppToken;
+            request.Headers.Add(StorePickUpConstants.AppKey, appKey);
+            request.Headers.Add(StorePickUpConstants.AppToken, appToken);
 
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"[-] TemplateExists Response {response.StatusCode} Content = '{responseContent}' [-]");
+            //Console.WriteLine($"[-] TemplateExists Response {response.StatusCode} Content = '{responseContent}' [-]");
+            Console.WriteLine($"[-] TemplateExists Response {response.StatusCode} [-]");
 
             return (int)response.StatusCode == StatusCodes.Status200OK;
         }
@@ -485,8 +574,8 @@ namespace StorePickup.Services
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"[-] GetDefaultTemplate [{response.StatusCode}] '{responseContent}' [-]");
-            _context.Vtex.Logger.Info("GetDefaultTemplate", "Response", $"[{response.StatusCode}] {responseContent}");
+            //Console.WriteLine($"[-] GetDefaultTemplate [{response.StatusCode}] '{responseContent}' [-]");
+            //_context.Vtex.Logger.Info("GetDefaultTemplate", "Response", $"[{response.StatusCode}] {responseContent}");
             if (response.IsSuccessStatusCode)
             {
                 templateBody = responseContent;

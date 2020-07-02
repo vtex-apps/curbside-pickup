@@ -22,14 +22,15 @@ namespace StorePickup.Data
         public const string GitHubUrl = "https://raw.githubusercontent.com";
         public const string Repository = "vtex-apps/curbside-pickup/master";
         public const string TemplateFolder = "templates";
-        public const string TemplateFileExtension = "json";
+        //public const string TemplateFileExtension = "json";
+        public const string TemplateFileExtension = "hbs";
 
         public const string CommentDomain = "oms";
         public const string CommentType = "order";
 
         public const string ViewerCountry = "cloudfront-viewer-country";
         public const string ProviderId = "00000000-0000-0000-0000-000000000000";
-        public const string EmailTo = "{{toEmail}}";
+        public const string EmailTo = "{{curbsidePickup.toEmail}}";
 
         public const string FORWARDED_HEADER = "X-Forwarded-For";
         public const string FORWARDED_HOST = "X-Forwarded-Host";
@@ -101,10 +102,10 @@ namespace StorePickup.Data
 
         public class TemplateSubject
         {
-            public const string ReadyForPacking = "Ready For Packing";
-            public const string PackageReady = "Package Ready";
-            public const string AtLocation = "At Location";
-            public const string PickedUp = "Items Picked Up";
+            public const string ReadyForPacking = "Curbside Pickup Ready For Packing";
+            public const string PackageReady = "Curbside Pickup Package Ready";
+            public const string AtLocation = "Curbside Pickup At Location";
+            public const string PickedUp = "Curbside Pickup Items Picked Up";
         }
 
         public class Domain

@@ -33,6 +33,18 @@ namespace service.Controllers
             return Json(createOrUpdateHookResponse);
         }
 
+        public async Task<IActionResult> CreateDefaultTemplates()
+        {
+            //bool atLocation = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation);
+            //bool packageReady = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady);
+            ////bool pickedUp = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PickedUp);
+            //bool readyForPacking = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.ReadyForPacking);
+            //Response.Headers.Add("Cache-Control", "private");
+
+            //return Json($"AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking}");
+            return Json($"N/A");
+        }
+
         public async Task<IActionResult> ProcessNotification()
         {
             bool success = false;

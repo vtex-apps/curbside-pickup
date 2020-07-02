@@ -13,5 +13,6 @@ namespace StorePickup.Services
         Task<string> GetDefaultTemplate(string templateName);
         Task<bool> AddOrderComment(string message, string orderId);
         Task<string> ProcessLink(string action, string id);
+        Task<bool> CreateDefaultTemplate(StorePickUpConstants.MailTemplateType templateType);
     }
 }
