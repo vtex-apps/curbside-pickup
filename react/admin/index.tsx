@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Layout, PageHeader, Box } from 'vtex.styleguide'
+import { Layout, PageHeader, Box, Link, IconCog } from 'vtex.styleguide'
 import { injectIntl, FormattedMessage } from 'react-intl'
 
 const getAppId = () => {
@@ -14,7 +14,11 @@ const CurbsideIndex: FC = ({ intl }: any) => {
           <div className="w-100 mw-reviews-header">
             <PageHeader
               title={intl.formatMessage({ id: 'admin/curbside.title' })}
-            />
+            >
+              <Link href={`/admin/apps/${getAppId()}/setup`}>
+                <IconCog size="16" /> <FormattedMessage id="admin/curbside.settings.title" />
+              </Link>
+            </PageHeader>
           </div>
         </div>
       }
@@ -44,20 +48,6 @@ const CurbsideIndex: FC = ({ intl }: any) => {
             <li className="mb4">
               <a href="/admin/message-center/#/templates/curbside-ready-for-packing">
                 <FormattedMessage id="admin/curbside.template.ready-for-packing" />
-              </a>
-            </li>
-          </ul>
-        </Box>
-      </div>
-      <div className="bg-muted-5 pa4 w-50">
-        <Box
-          title={intl.formatMessage({ id: 'admin/curbside.settings.title' })}
-          fit="none"
-        >
-          <ul className="mid-gray">
-            <li className="mb4">
-              <a href={`/admin/apps/${getAppId()}/setup`}>
-                <FormattedMessage id="admin/curbside.settings.link" />
               </a>
             </li>
           </ul>
