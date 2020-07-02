@@ -1,6 +1,6 @@
 {
-    "Name": "curbside-ready-for-packing",
-    "FriendlyName": "curbside-ready-for-packing",
+    "Name": "test-ready-for-packing",
+    "FriendlyName": "Test Ready-for-packing",
     "Description": null,
     "IsDefaultTemplate": false,
     "AccountId": null,
