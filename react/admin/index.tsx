@@ -26,10 +26,10 @@ const CurbsideIndex: FC = props => {
           <div className="w-100 mw-reviews-content pb8">
             <div className="mb7">
               <ul>
-                <li><a href="#">Thanks email template</a></li>
-                <li><a href="#">Handover email template</a></li>
-                <li><a href="#">Notified email template</a></li>
-                <li><a href="#">Cancelled email template</a></li>
+                <li><a href="/admin/message-center/#/templates/curbside-at-location">"At location" email template</a></li>
+                <li><a href="/admin/message-center/#/templates/curbside-cancel-order">"Cancel order" email template</a></li>
+                <li><a href="/admin/message-center/#/templates/curbside-package-ready">"Package ready" email template</a></li>
+                <li><a href="/admin/message-center/#/templates/curbside-ready-for-packing">"Ready for packing" email template</a></li>
                 <li><a href={`/admin/apps/${getAppId()}/setup`}>App settings</a></li>
               </ul>
             </div>
