@@ -50,8 +50,7 @@ namespace StorePickup.Services
             this._applicationName =
                 $"{this._environmentVariableProvider.ApplicationVendor}.{this._environmentVariableProvider.ApplicationName}";
 
-            MerchantSettings merchantSettings = _storePickupRepository.GetMerchantSettings().Result;
-            if (!string.IsNullOrEmpty(merchantSettings.AppKey) && !string.IsNullOrEmpty(merchantSettings.AppToken) && !merchantSettings.Initialized)
+            if (!_storePickupRepository.IsInitialized().Result)
             {
                 bool atLocation = this.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation).Result;
                 bool packageReady = this.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady).Result;
@@ -61,8 +60,8 @@ namespace StorePickup.Services
                 _context.Vtex.Logger.Info("StorePickupService", null, $"AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking} Hook:{hookCreated}");
                 if(atLocation && packageReady && readyForPacking && hookCreated)
                 {
-                    merchantSettings.Initialized = true;
-                    _storePickupRepository.SetMerchantSettings(merchantSettings);
+                    _context.Vtex.Logger.Info("StorePickupService", null, "Initialized");
+                    _storePickupRepository.SetInitialized();
                 }
             }
         }

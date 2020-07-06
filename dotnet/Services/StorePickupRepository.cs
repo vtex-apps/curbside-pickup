@@ -89,6 +89,62 @@ namespace StorePickup.Services
                 request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
             }
 
+            request.Headers.Add(StorePickUpConstants.AppKey, merchantSettings.AppKey);
+            request.Headers.Add(StorePickUpConstants.AppToken, merchantSettings.AppToken);
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+            Console.WriteLine($"SetMerchantSettings Init?{merchantSettings.Initialized} [{response.StatusCode}]");
+
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<bool> IsInitialized()
+        {
+            bool isInitialized = false;
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"http://vbase.{this._environmentVariableProvider.Region}.vtex.io/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_WORKSPACE]}/buckets/{this._applicationName}/{StorePickUpConstants.AppName}/files/initialized"),
+            };
+
+            string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
+            if (authToken != null)
+            {
+                request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
+                request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
+            }
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            if(response.IsSuccessStatusCode)
+            {
+                if (responseContent.Equals("true"))
+                {
+                    isInitialized = true;
+                }
+            }
+
+            return isInitialized;
+        }
+
+        public async Task SetInitialized()
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"http://vbase.{this._environmentVariableProvider.Region}.vtex.io/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}/{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_WORKSPACE]}/buckets/{this._applicationName}/{StorePickUpConstants.AppName}/files/initialized"),
+                Content = new StringContent("true", Encoding.UTF8, "text/plain")
+            };
+
+            string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
+            if (authToken != null)
+            {
+                request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
+                request.Headers.Add(StorePickUpConstants.VTEX_ID_HEADER_NAME, authToken);
+            }
+
             var client = _clientFactory.CreateClient();
             var response = await client.SendAsync(request);
 

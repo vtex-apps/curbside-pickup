@@ -7,5 +7,7 @@ namespace StorePickup.Services
     {
         Task<MerchantSettings> GetMerchantSettings();
         Task SetMerchantSettings(MerchantSettings merchantSettings);
+        Task<bool> IsInitialized();
+        Task SetInitialized();
     }
 }
