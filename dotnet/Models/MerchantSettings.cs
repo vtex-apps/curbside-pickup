@@ -8,5 +8,6 @@ namespace StorePickup.Models
     {
         public string AppKey { get; set; }
         public string AppToken { get; set; }
+        public bool Initialized { get; set; }
     }
 }

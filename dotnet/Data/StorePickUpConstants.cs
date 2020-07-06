@@ -22,8 +22,8 @@ namespace StorePickup.Data
         public const string GitHubUrl = "https://raw.githubusercontent.com";
         public const string Repository = "vtex-apps/curbside-pickup/master";
         public const string TemplateFolder = "templates";
-        //public const string TemplateFileExtension = "json";
-        public const string TemplateFileExtension = "hbs";
+        public const string TemplateFileExtension = "json";
+        //public const string TemplateFileExtension = "hbs";
 
         public const string CommentDomain = "oms";
         public const string CommentType = "order";
@@ -91,6 +91,16 @@ namespace StorePickup.Data
             public const string CancelOrder = "curbside-cancel-order";
             public const string CancelPickUp = "curbside-cancel-pickup";
         }
+
+        //public class MailTemplates
+        //{
+        //    public const string ReadyForPacking = "test-ready-for-packing";
+        //    public const string PackageReady = "test-package-ready";
+        //    public const string AtLocation = "test-at-location";
+        //    public const string PickedUp = "test-picked-up";
+        //    public const string CancelOrder = "test-cancel-order";
+        //    public const string CancelPickUp = "test-cancel-pickup";
+        //}
 
         public class OrderCommentText
         {

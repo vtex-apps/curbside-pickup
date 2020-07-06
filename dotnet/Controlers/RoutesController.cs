@@ -27,7 +27,8 @@ namespace service.Controllers
 
         public async Task<IActionResult> CreateHook()
         {
-            HookNotification createOrUpdateHookResponse = await this._storePickupService.CreateOrUpdateHook();
+            //HookNotification createOrUpdateHookResponse = await this._storePickupService.CreateOrUpdateHook();
+            bool createOrUpdateHookResponse = await this._storePickupService.CreateOrUpdateHook();
             Response.Headers.Add("Cache-Control", "private");
 
             return Json(createOrUpdateHookResponse);
@@ -38,11 +39,11 @@ namespace service.Controllers
             //bool atLocation = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation);
             //bool packageReady = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady);
             ////bool pickedUp = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PickedUp);
-            //bool readyForPacking = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.ReadyForPacking);
+            bool readyForPacking = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.ReadyForPacking);
             //Response.Headers.Add("Cache-Control", "private");
 
             //return Json($"AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking}");
-            return Json($"N/A");
+            return Json($"readyForPacking {readyForPacking}");
         }
 
         public async Task<IActionResult> ProcessNotification()

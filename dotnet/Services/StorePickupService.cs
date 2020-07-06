@@ -50,7 +50,21 @@ namespace StorePickup.Services
             this._applicationName =
                 $"{this._environmentVariableProvider.ApplicationVendor}.{this._environmentVariableProvider.ApplicationName}";
 
+            MerchantSettings merchantSettings = _storePickupRepository.GetMerchantSettings().Result;
+            if (!string.IsNullOrEmpty(merchantSettings.AppKey) && !string.IsNullOrEmpty(merchantSettings.AppToken) && !merchantSettings.Initialized)
+            {
+                bool atLocation = this.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation).Result;
+                bool packageReady = this.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady).Result;
+                bool readyForPacking = this.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.ReadyForPacking).Result;
+                bool hookCreated = this.CreateOrUpdateHook().Result;
 
+                _context.Vtex.Logger.Info("StorePickupService", null, $"AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking} Hook:{hookCreated}");
+                if(atLocation && packageReady && readyForPacking && hookCreated)
+                {
+                    merchantSettings.Initialized = true;
+                    _storePickupRepository.SetMerchantSettings(merchantSettings);
+                }
+            }
         }
 
         public async Task<bool> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order)
@@ -117,8 +131,8 @@ namespace StorePickup.Services
             string queryArgs = Uri.EscapeDataString(_cryptoService.EncryptString(nextAction, queryText, _context.Vtex.Account));
             string cancelOrderQueryArgs = Uri.EscapeDataString(_cryptoService.EncryptString(StorePickUpConstants.MailTemplates.CancelOrder, queryText, _context.Vtex.Account));
             // https://sandboxusdev.myvtex.com/_v/pickup/notification/package-ready/{{queryArgs}}
-            string actionLink = $"https://{_context.Vtex.Host}/_v/pickup/notification/{nextAction}/{queryArgs}";
-            string cancelLink = $"https://{_context.Vtex.Host}/_v/pickup/notification/{StorePickUpConstants.MailTemplates.CancelOrder}/{cancelOrderQueryArgs}";
+            string actionLink = $"https://{_context.Vtex.Host}/_v/curbside-pickup/notification/{nextAction}/{queryArgs}";
+            string cancelLink = $"https://{_context.Vtex.Host}/_v/curbside-pickup/notification/{StorePickUpConstants.MailTemplates.CancelOrder}/{cancelOrderQueryArgs}";
             
             EmailMessage emailMessage = new EmailMessage
             {
@@ -173,57 +187,58 @@ namespace StorePickup.Services
                 success = responseMessage.IsSuccessStatusCode;
                 if (responseMessage.StatusCode.Equals(HttpStatusCode.NotFound))
                 {
-                    Console.WriteLine($"Template {templateName} not found.  Creating...");
-                    string templateBody = await this.GetDefaultTemplate(templateName);
-                    if (string.IsNullOrWhiteSpace(templateBody))
-                    {
-                        Console.WriteLine($"Failed to Load Template {templateName}");
-                        _context.Vtex.Logger.Info("SendEmail", "Create Template", $"Failed to Load Template {templateName}");
-                    }
-                    else
-                    {
-                        //EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
+                    //Console.WriteLine($"Template {templateName} not found.  Creating...");
+                    _context.Vtex.Logger.Error("SendEmail", null, $"Template {templateName} not found.");
+                    //string templateBody = await this.GetDefaultTemplate(templateName);
+                    //if (string.IsNullOrWhiteSpace(templateBody))
+                    //{
+                    //    Console.WriteLine($"Failed to Load Template {templateName}");
+                    //    _context.Vtex.Logger.Info("SendEmail", "Create Template", $"Failed to Load Template {templateName}");
+                    //}
+                    //else
+                    //{
+                    //    EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
 
-                        EmailTemplate emailTemplate = new EmailTemplate
-                        {
-                            Name = templateName,
-                            FriendlyName = subjectText,
-                            Type = string.Empty,
-                            IsDefaultTemplate = false,
-                            IsPersisted = true,
-                            IsRemoved = false,
-                            Templates = new Templates
-                            {
-                                Email = new Email
-                                {
-                                    IsActive = true,
-                                    WithError = false,
-                                    Message = templateBody,
-                                    Subject = subjectText,
-                                    To = StorePickUpConstants.EmailTo,
-                                    Cc = string.Empty,
-                                    Bcc = string.Empty,
-                                    Type = StorePickUpConstants.TemplateType.Email,
-                                    ProviderId = StorePickUpConstants.ProviderId
-                                },
-                                Sms = new Sms
-                                {
-                                    Type = StorePickUpConstants.TemplateType.SMS,
-                                    Parameters = new List<object>()
-                                }
-                            }
-                        };
+                    //    //EmailTemplate emailTemplate = new EmailTemplate
+                    //    //{
+                    //    //    Name = templateName,
+                    //    //    FriendlyName = subjectText,
+                    //    //    Type = string.Empty,
+                    //    //    IsDefaultTemplate = false,
+                    //    //    IsPersisted = true,
+                    //    //    IsRemoved = false,
+                    //    //    Templates = new Templates
+                    //    //    {
+                    //    //        Email = new Email
+                    //    //        {
+                    //    //            IsActive = true,
+                    //    //            WithError = false,
+                    //    //            Message = templateBody,
+                    //    //            Subject = subjectText,
+                    //    //            To = StorePickUpConstants.EmailTo,
+                    //    //            Cc = string.Empty,
+                    //    //            Bcc = string.Empty,
+                    //    //            Type = StorePickUpConstants.TemplateType.Email,
+                    //    //            ProviderId = StorePickUpConstants.ProviderId
+                    //    //        },
+                    //    //        Sms = new Sms
+                    //    //        {
+                    //    //            Type = StorePickUpConstants.TemplateType.SMS,
+                    //    //            Parameters = new List<object>()
+                    //    //        }
+                    //    //    }
+                    //    //};
 
-                        bool templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
-                        if (templateExists)
-                        {
-                            responseMessage = await client.SendAsync(request);
-                            responseContent = await responseMessage.Content.ReadAsStringAsync();
-                            responseText = $"[-] SendEmail Retry [{responseMessage.StatusCode}] {responseContent}";
-                            _context.Vtex.Logger.Info("SendEmail", "Retry", $"[{responseMessage.StatusCode}] {responseContent}");
-                            success = responseMessage.IsSuccessStatusCode;
-                        }
-                    }
+                    //    bool templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
+                    //    if (templateExists)
+                    //    {
+                    //        responseMessage = await client.SendAsync(request);
+                    //        responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    //        responseText = $"[-] SendEmail Retry [{responseMessage.StatusCode}] {responseContent}";
+                    //        _context.Vtex.Logger.Info("SendEmail", "Retry", $"[{responseMessage.StatusCode}] {responseContent}");
+                    //        success = responseMessage.IsSuccessStatusCode;
+                    //    }
+                    //}
                 }
             }
             catch (Exception ex)
@@ -274,39 +289,41 @@ namespace StorePickup.Services
                 }
                 else
                 {
-                    //EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
+                    EmailTemplate emailTemplate = JsonConvert.DeserializeObject<EmailTemplate>(templateBody);
 
-                    EmailTemplate emailTemplate = new EmailTemplate
-                    {
-                        Name = templateName,
-                        FriendlyName = subjectText,
-                        Type = string.Empty,
-                        IsDefaultTemplate = false,
-                        IsPersisted = true,
-                        IsRemoved = false,
-                        Templates = new Templates
-                        {
-                            Email = new Email
-                            {
-                                IsActive = true,
-                                WithError = false,
-                                Message = templateBody,
-                                Subject = subjectText,
-                                To = StorePickUpConstants.EmailTo,
-                                Cc = string.Empty,
-                                Bcc = string.Empty,
-                                Type = StorePickUpConstants.TemplateType.Email,
-                                ProviderId = StorePickUpConstants.ProviderId
-                            },
-                            Sms = new Sms
-                            {
-                                Type = StorePickUpConstants.TemplateType.SMS,
-                                Parameters = new List<object>()
-                            }
-                        }
-                    };
+                    emailTemplate.Templates.Email.Message = emailTemplate.Templates.Email.Message.Replace(@"\n", "\n");
 
-                    //templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
+                    //EmailTemplate emailTemplate = new EmailTemplate
+                    //{
+                    //    Name = templateName,
+                    //    FriendlyName = subjectText,
+                    //    Type = string.Empty,
+                    //    IsDefaultTemplate = false,
+                    //    IsPersisted = true,
+                    //    IsRemoved = false,
+                    //    Templates = new Templates
+                    //    {
+                    //        Email = new Email
+                    //        {
+                    //            IsActive = true,
+                    //            WithError = false,
+                    //            Message = templateBody,
+                    //            Subject = subjectText,
+                    //            To = StorePickUpConstants.EmailTo,
+                    //            Cc = string.Empty,
+                    //            Bcc = string.Empty,
+                    //            Type = StorePickUpConstants.TemplateType.Email,
+                    //            ProviderId = StorePickUpConstants.ProviderId
+                    //        },
+                    //        Sms = new Sms
+                    //        {
+                    //            Type = StorePickUpConstants.TemplateType.SMS,
+                    //            Parameters = new List<object>()
+                    //        }
+                    //    }
+                    //};
+
+                    templateExists = await this.CreateOrUpdateTemplate(emailTemplate);
                     //templateExists = await this.CreateOrUpdateTemplate(templateName);
                 }
             }
@@ -314,9 +331,10 @@ namespace StorePickup.Services
             return templateExists;
         }
 
-        public async Task<HookNotification> CreateOrUpdateHook()
+        public async Task<bool> CreateOrUpdateHook()
         {
             // POST https://{accountName}.{environment}.com.br/api/orders/hook/config
+            string baseUrl = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.FORWARDED_HOST];
 
             HookNotification createOrUpdateHookResponse = new HookNotification();
             OrderHook orderHook = new OrderHook
@@ -334,13 +352,13 @@ namespace StorePickup.Services
                     {
                         Key = StorePickUpConstants.EndPointKey
                     },
-                    Url = new Uri($"https://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.LOCAL_ENVIRONMENT}.com/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}")
+                    Url = new Uri($"https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}")
                 }
             };
 
             var jsonSerializedOrderHook = JsonConvert.SerializeObject(orderHook);
             //Console.WriteLine($"Hook = {jsonSerializedOrderHook}");
-            //Console.WriteLine($"Url = http://{this._httpContextAccessor.HttpContext.Request.Headers[Constants.VTEX_ACCOUNT_HEADER_NAME]}.{Constants.ENVIRONMENT}.com.br/api/orders/hook/config");
+            Console.WriteLine($"Url = https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}");
 
             var request = new HttpRequestMessage
             {
@@ -366,12 +384,12 @@ namespace StorePickup.Services
             string responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine($"[-] CreateOrUpdateHook Response {response.StatusCode} Content = '{responseContent}' [-]");
             _context.Vtex.Logger.Info("CreateOrUpdateHook", "Response", $"[{response.StatusCode}] {responseContent}");
-            if (response.IsSuccessStatusCode)
-            {
-                createOrUpdateHookResponse = JsonConvert.DeserializeObject<HookNotification>(responseContent);
-            }
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    createOrUpdateHookResponse = JsonConvert.DeserializeObject<HookNotification>(responseContent);
+            //}
 
-            return createOrUpdateHookResponse;
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<VtexOrder> GetOrderInformation(string orderId)
@@ -538,7 +556,7 @@ namespace StorePickup.Services
             }
 
             MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
-            Console.WriteLine($"Key:[{merchantSettings.AppKey}] | Token:[{merchantSettings.AppToken}]");
+            //Console.WriteLine($"Key:[{merchantSettings.AppKey}] | Token:[{merchantSettings.AppToken}]");
             string appKey = merchantSettings.AppKey;
             string appToken = merchantSettings.AppToken;
             request.Headers.Add(StorePickUpConstants.AppKey, appKey);
@@ -548,7 +566,7 @@ namespace StorePickup.Services
             var response = await client.SendAsync(request);
             string responseContent = await response.Content.ReadAsStringAsync();
             //Console.WriteLine($"[-] TemplateExists Response {response.StatusCode} Content = '{responseContent}' [-]");
-            Console.WriteLine($"[-] TemplateExists Response {response.StatusCode} [-]");
+            Console.WriteLine($"[-] Template '{templateName}' Exists Response {response.StatusCode} [-]");
 
             return (int)response.StatusCode == StatusCodes.Status200OK;
         }
