@@ -5,19 +5,19 @@
   ],
   "routes": {
     "processNotification": {
-      "path": "/pickup/hook-notification",
+      "path": "/curbside-pickup/hook-notification",
       "public": true
     },
     "processMailLink": {
-      "path": "/_v/pickup/notification/:linkAction/:arguments",
+      "path": "/_v/curbside-pickup/notification/:linkAction/:arguments",
       "public": true
     },
     "createHook": {
-      "path": "/_v/pickup/create-hook",
+      "path": "/_v/curbside-pickup/create-hook",
       "public": true
     },
     "createDefaultTemplates": {
-      "path": "/_v/pickup/create-templates",
+      "path": "/_v/curbside-pickup/create-templates",
       "public": true
     }
   },

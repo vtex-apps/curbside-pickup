@@ -6,7 +6,7 @@ namespace StorePickup.Services
 {
     public interface IStorePickupService
     {
-        Task<HookNotification> CreateOrUpdateHook();
+        Task<bool> CreateOrUpdateHook();
         Task<VtexOrder> GetOrderInformation(string orderId);
         Task<bool> ProcessNotification(HookNotification hookNotification);
         Task<bool> SendEmail(StorePickUpConstants.MailTemplateType templateType, VtexOrder order);
