@@ -14,10 +14,14 @@
     },
     "createHook": {
       "path": "/_v/curbside-pickup/create-hook",
-      "public": true
+      "public": false
     },
     "createDefaultTemplates": {
       "path": "/_v/curbside-pickup/create-templates",
+      "public": false
+    },
+    "initializeApp": {
+      "path": "/_v/curbside-pickup/initialize-app",
       "public": true
     }
   },

@@ -36,14 +36,30 @@ namespace service.Controllers
 
         public async Task<IActionResult> CreateDefaultTemplates()
         {
-            //bool atLocation = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation);
-            //bool packageReady = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady);
-            ////bool pickedUp = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PickedUp);
+            bool atLocation = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation);
+            bool packageReady = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady);
+            //bool pickedUp = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PickedUp);
             bool readyForPacking = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.ReadyForPacking);
-            //Response.Headers.Add("Cache-Control", "private");
+            Response.Headers.Add("Cache-Control", "private");
 
-            //return Json($"AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking}");
-            return Json($"readyForPacking {readyForPacking}");
+            return Json($"AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking}");
+            //return Json($"readyForPacking {readyForPacking}");
+        }
+
+        public async Task<IActionResult> InitializeApp()
+        {
+            bool atLocation = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.AtLocation);
+            bool packageReady = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PackageReady);
+            //bool pickedUp = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.PickedUp);
+            bool readyForPacking = await this._storePickupService.CreateDefaultTemplate(StorePickUpConstants.MailTemplateType.ReadyForPacking);
+
+            bool createOrUpdateHookResponse = await this._storePickupService.CreateOrUpdateHook();
+
+            Response.Headers.Add("Cache-Control", "private");
+
+            _context.Vtex.Logger.Info("StorePickupService", null, $"Initialized AtLocation:{atLocation} PackageReady:{packageReady} ReadyForPacking:{readyForPacking} Hook:{createOrUpdateHookResponse}");
+            return Json(atLocation && packageReady && readyForPacking && createOrUpdateHookResponse);
+            //return Json($"readyForPacking {readyForPacking}");
         }
 
         public async Task<IActionResult> ProcessNotification()
