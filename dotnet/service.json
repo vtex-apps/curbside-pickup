@@ -23,6 +23,10 @@
     "initializeApp": {
       "path": "/_v/curbside-pickup/initialize-app",
       "public": true
+    },
+    "verifySetup": {
+      "path": "/_v/curbside-pickup/verify-setup",
+      "public": true
     }
   },
   "events": {

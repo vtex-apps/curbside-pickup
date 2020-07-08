@@ -104,5 +104,17 @@ namespace service.Controllers
             Console.WriteLine($"redirectUrl = {redirectUrl}");
             return Redirect(redirectUrl);
         }
+
+        public async Task<IActionResult> VerifySetup()
+        {
+            bool atLocation = await this._storePickupService.TemplateExists(StorePickUpConstants.MailTemplates.AtLocation);
+            bool packageReady = await this._storePickupService.TemplateExists(StorePickUpConstants.MailTemplates.PackageReady);
+            //bool pickedUp = await this._storePickupService.TemplateExists(StorePickUpConstants.MailTemplates.PickedUp);
+            bool readyForPacking = await this._storePickupService.TemplateExists(StorePickUpConstants.MailTemplates.ReadyForPacking);
+            bool verifyHook = await this._storePickupService.VerifyHook();
+            Response.Headers.Add("Cache-Control", "private");
+
+            return Json(atLocation && packageReady && readyForPacking && verifyHook);
+        }
     }
 }
