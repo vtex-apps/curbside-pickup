@@ -1,6 +1,6 @@
 {
   "name": "curbside-pickup",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "devDependencies": {
     "@types/node": "^14.0.14",
     "apollo-client": "^2.6.10",
