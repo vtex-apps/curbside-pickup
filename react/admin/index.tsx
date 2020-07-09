@@ -74,7 +74,7 @@ const CurbsideIndex: FC = ({ intl }: any) => {
   }
 
   useEffect(() => {
-    if (!verified) {
+    if (!loading && !verified) {
       verify()
     }
   })

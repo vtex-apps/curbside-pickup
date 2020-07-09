@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Admin page waits until app settings are loaded before performing setup verification check
+
 ## [0.2.1] - 2020-07-09
 
 ### Removed
