@@ -391,6 +391,67 @@ namespace StorePickup.Services
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> VerifyHook()
+        {
+            bool verified = false;
+            // POST https://{accountName}.{environment}.com.br/api/orders/hook/config
+            string baseUrl = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.FORWARDED_HOST];
+
+            OrderHook verifyHookResponse = new OrderHook();
+            OrderHook orderHook = new OrderHook
+            {
+                Filter = new Filter
+                {
+                    Status = new List<string>
+                    {
+                        StorePickUpConstants.Status.ReadyForHandling,
+                    }
+                },
+                Hook = new Hook
+                {
+                    Headers = new Headers
+                    {
+                        Key = StorePickUpConstants.EndPointKey
+                    },
+                    Url = new Uri($"https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}")
+                }
+            };
+
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri($"http://{this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.VTEX_ACCOUNT_HEADER_NAME]}.{StorePickUpConstants.ENVIRONMENT}.com.br/api/orders/hook/config")
+            };
+
+            request.Headers.Add(StorePickUpConstants.USE_HTTPS_HEADER_NAME, "true");
+            string authToken = this._httpContextAccessor.HttpContext.Request.Headers[StorePickUpConstants.HEADER_VTEX_CREDENTIAL];
+            if (authToken != null)
+            {
+                request.Headers.Add(StorePickUpConstants.AUTHORIZATION_HEADER_NAME, authToken);
+                request.Headers.Add(StorePickUpConstants.PROXY_AUTHORIZATION_HEADER_NAME, authToken);
+            }
+
+            MerchantSettings merchantSettings = await _storePickupRepository.GetMerchantSettings();
+            request.Headers.Add(StorePickUpConstants.AppKey, merchantSettings.AppKey);
+            request.Headers.Add(StorePickUpConstants.AppToken, merchantSettings.AppToken);
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.SendAsync(request);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            _context.Vtex.Logger.Info("VerifyHook", "Response", $"[{response.StatusCode}] {responseContent}");
+            if (response.IsSuccessStatusCode)
+            {
+                verifyHookResponse = JsonConvert.DeserializeObject<OrderHook>(responseContent);
+                if(verifyHookResponse.Hook.Url.Equals($"https://{baseUrl}/{StorePickUpConstants.AppName}/{StorePickUpConstants.EndPointKey}") 
+                    && verifyHookResponse.Hook.Headers.Key.Equals(StorePickUpConstants.EndPointKey))
+                {
+                    verified = true;
+                }
+            }
+
+            return verified;
+        }
+
         public async Task<VtexOrder> GetOrderInformation(string orderId)
         {
             //Console.WriteLine("------- Headers -------");
