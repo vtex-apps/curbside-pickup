@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ClientsConfig,
   LRUCache,
@@ -39,6 +40,7 @@ declare global {
   type Context = ServiceContext<Clients, State>
 
   // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface State extends RecorderState {}
 }
 

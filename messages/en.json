@@ -1,17 +1,16 @@
 {
-    "admin/curbside.title": "Curbside Pickup",
-    "admin/curbside.templates.title": "Email templates",
-    "admin/curbside.template.at-location": "\"At location\" email template",
-    "admin/curbside.template.cancel-order": "\"Cancel order\" email template",
-    "admin/curbside.template.package-ready": "\"Package ready\" email template",
-    "admin/curbside.template.ready-for-packing": "\"Ready for packing\" email template",
-    "admin/curbside.settings.title": "Settings",
-    "admin/curbside.settings.link": "App settings",
-    "admin/curbside.warning.title": "Missing configuration",
-    "admin/curbside.warning.description": "Before using this app, is mandatory to set up the appKey and appToken, once you have it, click on the \"Settings\" link above to save the configuration. If you don't know how to create an appKey and appToken, ",
-    "admin/curbside.setup.title": "Almost there",
-    "admin/curbside.setup.description": "This process will setup all the dependencies you need for the app",
-    "admin/curbside.setup.button": "Proceed",
-    "admin/curbside.warning.link": "Click here"
-  }
-  
+  "admin/curbside.title": "Curbside Pickup",
+  "admin/curbside.templates.title": "Email templates",
+  "admin/curbside.template.at-location": "\"At location\" email template (sent to store)",
+  "admin/curbside.template.cancel-order": "\"Cancel order\" email template",
+  "admin/curbside.template.package-ready": "\"Package ready\" email template (sent to shopper)",
+  "admin/curbside.template.ready-for-packing": "\"Ready for packing\" email template (sent to store)",
+  "admin/curbside.settings.title": "Settings",
+  "admin/curbside.settings.link": "App settings",
+  "admin/curbside.warning.title": "Missing configuration",
+  "admin/curbside.warning.description": "Before using this app, is mandatory to set up the appKey and appToken, once you have it, click on the \"Settings\" link above to save the configuration. If you don't know how to create an appKey and appToken, ",
+  "admin/curbside.setup.title": "Almost there",
+  "admin/curbside.setup.description": "This process will setup all the dependencies you need for the app",
+  "admin/curbside.setup.button": "Proceed",
+  "admin/curbside.warning.link": "Click here"
+}
