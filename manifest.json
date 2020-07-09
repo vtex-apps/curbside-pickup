@@ -1,7 +1,7 @@
 {
   "name": "curbside-pickup",
   "vendor": "vtex",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "title": "Curbside Pickup",
   "description": "",
   "categories": [],
@@ -21,7 +21,9 @@
       }
     }
   },
-  "registries": ["smartcheckout"],
+  "registries": [
+    "smartcheckout"
+  ],
   "builders": {
     "dotnet": "2.x",
     "admin": "0.x",
