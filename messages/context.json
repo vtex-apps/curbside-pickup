@@ -9,5 +9,8 @@
   "admin/curbside.settings.link": "App settings",
   "admin/curbside.warning.title": "Missing configuration",
   "admin/curbside.warning.description": "Before using this app, is mandatory to set up the appKey and appToken, once you have it, click on the \"Settings\" link above to save the configuration. If you don't know how to create an appKey and appToken, ",
+  "admin/curbside.setup.title": "Almost there",
+  "admin/curbside.setup.description": "This process will setup all the dependencies you need for the app",
+  "admin/curbside.setup.button": "Proceed",
   "admin/curbside.warning.link": "Click here"
 }
