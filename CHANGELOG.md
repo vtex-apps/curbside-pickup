@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Updated docs
+
+- Updated app store assets
+
+- Updated default email templates
+
+- Reordered app settings properties and added descriptions
+
+- Updated email template link text for admin page
+
 ## [0.1.0] - 2020-07-09
 
 ### Changed

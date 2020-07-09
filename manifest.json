@@ -9,14 +9,14 @@
     "title": "Curbside Pickup",
     "type": "object",
     "properties": {
-      "appToken": {
-        "title": "App Token",
-        "description": "AppToken",
-        "type": "string"
-      },
       "appKey": {
         "title": "App Key",
-        "description": "AppKey",
+        "description": "Enter a VTEX App Key from this store's account",
+        "type": "string"
+      },
+      "appToken": {
+        "title": "App Token",
+        "description": "Enter the VTEX App Token matching the above app key",
         "type": "string"
       }
     }

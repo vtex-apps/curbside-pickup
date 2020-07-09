@@ -12,10 +12,15 @@ This app allows shoppers and store staff to coordinate curbside pickup orders th
 
 ## Configuration
 
-1. Install the app from the VTEX App Store.
+1. Install the app from the VTEX app store.
 
-2. In your admin dashboard, go to `Apps > Curbside Pickup` to configure the app settings:
+2. In your admin dashboard, go to `Apps > My Apps > Curbside Pickup` to configure the app settings:
+- `App Key` & `App Token`: Generate a new app key/token pair in your VTEX account (or use an existing pair) and enter them here.
 
-- `App Key` & `App Token`: Generate a new app key/token pair in your VTEX account (or use an existing pair) and enter them here.
+3. In your admin dashboard, go to `Inventory & shipping > Pickup points`. For each of your pickup point store locations, enter the store's email address in the **Address Line 2** field. The app will send store pickup notifications to this email address.
 
-3. To subscribe the app to the order feed, it is necessary to send a POST request to `https://{{account}}.myvtex.com/_v/pickup/create-hook`. The app key and app token from step 2 can be used to authenticate the POST request (setting them as headers named `X-VTEX-API-AppKey` and `X-VTEX-API-AppToken`, respectively).
+4. In your admin dashboard, go to `Curbside Pickup` (in the sidebar menu immediately below `Inventory & shipping`). In the box titled "Almost There", click the **PROCEED** button. This will initialize the order notification hook needed by the app and will create the following email templates:
+- `curbside-ready-for-packing`: Sent to the store's email address (see step 3) when a curbside order is ready for handling.
+- `curbside-package-ready`: Sent to the shopper when the order is ready to be picked up.
+- `curbside-at-location`: Sent to the store's email address when the shopper has arrived at the pickup location.
+⚠️ Once the email templates are created, you may customize them as you see fit. Follow the links to the templates from the Curbside Pickup page, or navigate to `Message center > Templates` from your admin dashboard sidebar.
