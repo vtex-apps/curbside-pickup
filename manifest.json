@@ -21,12 +21,9 @@
       }
     }
   },
-  "registries": [
-    "smartcheckout"
-  ],
+  "registries": ["smartcheckout"],
   "builders": {
     "dotnet": "2.x",
-    "node": "6.x",
     "admin": "0.x",
     "store": "0.x",
     "react": "3.x",
