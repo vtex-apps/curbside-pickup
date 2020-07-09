@@ -5306,7 +5306,7 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-"stats-lite@github:vtex/node-stats-lite#dist":
+stats-lite@vtex/node-stats-lite#dist:
   version "2.2.0"
   resolved "https://codeload.github.com/vtex/node-stats-lite/tar.gz/1b0d39cc41ef7aaecfd541191f877887a2044797"
   dependencies:
@@ -5833,6 +5833,30 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+"vtex.apps-graphql@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.apps-graphql@2.5.1/public/@types/vtex.apps-graphql":
+  version "2.5.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.apps-graphql@2.5.1/public/@types/vtex.apps-graphql#3c5789b5877e6b6a3d9c4cac35a80f2c3bb8b5fe"
+
+"vtex.curbside-pickup@https://curbside--storecomponents.myvtex.com/_v/private/typings/linked/v1/vtex.curbside-pickup@0.1.0+build1594319201/public/@types/vtex.curbside-pickup":
+  version "0.0.0"
+  resolved "https://curbside--storecomponents.myvtex.com/_v/private/typings/linked/v1/vtex.curbside-pickup@0.1.0+build1594319201/public/@types/vtex.curbside-pickup#fcff5ce49153dac59396852f2ff2768ac16415c6"
+
+"vtex.flex-layout@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.flex-layout@0.15.0/public/@types/vtex.flex-layout":
+  version "0.15.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.flex-layout@0.15.0/public/@types/vtex.flex-layout#3296ce5096fedabb5d899d4a6d2da51811b97528"
+
+"vtex.rich-text@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.rich-text@0.10.1/public/@types/vtex.rich-text":
+  version "0.10.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.rich-text@0.10.1/public/@types/vtex.rich-text#71018851899c0f64b989304dc4971da42a026c57"
+
+"vtex.store@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.99.0/public/@types/vtex.store":
+  version "2.99.0"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store@2.99.0/public/@types/vtex.store#0d6294bd73aaeb7fee2c7fdffdfca403adfed9dc"
+
+"vtex.styleguide@http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.124.1/public/@types/vtex.styleguide":
+  version "9.124.1"
+  resolved "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.124.1/public/@types/vtex.styleguide#2b17f3f51bf9f5a39fc43be15641594451708324"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

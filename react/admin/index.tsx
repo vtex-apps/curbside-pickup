@@ -11,11 +11,13 @@ import {
 } from 'vtex.styleguide'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { useQuery } from 'react-apollo'
+
 import AppSettings from '../graphql/AppSettings.graphql'
 
 const getAppId = () => {
-  return process.env.VTEX_APP_ID || ''
+  return process.env.VTEX_APP_ID ?? ''
 }
+
 let verified = false
 
 const CurbsideIndex: FC = ({ intl }: any) => {
@@ -30,19 +32,28 @@ const CurbsideIndex: FC = ({ intl }: any) => {
     checkLoading: true,
     isSetup: false,
     setupLoading: false,
-    error: false,
+    appError: false,
     errorMessage: null,
   })
 
-  const { checkLoading, isSetup, setupLoading, error, errorMessage } = state
+  const { checkLoading, isSetup, setupLoading, appError, errorMessage } = state
 
   const verify = () => {
     verified = true
+    if (!data?.appSettings?.message || data?.appSettings?.message === '{}') {
+      setState({
+        ...state,
+        checkLoading: false,
+      })
+
+      return
+    }
+
     fetch('/_v/curbside-pickup/verify-setup')
       .then(res => res.json())
       .then(
         result => {
-          console.log('Result check =>', result)
+          // console.log('Result check =>', result)
           setState({
             ...state,
             checkLoading: false,
@@ -50,11 +61,11 @@ const CurbsideIndex: FC = ({ intl }: any) => {
           })
         },
         error => {
-          console.log('Result check error =>', error)
+          // console.log('Result check error =>', error)
           setState({
             ...state,
             checkLoading: false,
-            error: true,
+            appError: true,
             errorMessage: error,
           })
         }
@@ -75,8 +86,8 @@ const CurbsideIndex: FC = ({ intl }: any) => {
     fetch('/_v/curbside-pickup/initialize-app')
       .then(res => res.json())
       .then(
-        result => {
-          console.log('Result setup =>', result)
+        () => {
+          // console.log('Result setup =>', result)
           setState({
             ...state,
             checkLoading: false,
@@ -85,18 +96,18 @@ const CurbsideIndex: FC = ({ intl }: any) => {
           })
         },
         error => {
-          console.log('Result setup error =>', error)
+          // console.log('Result setup error =>', error)
           setState({
             checkLoading: false,
             setupLoading: false,
-            error: true,
+            appError: true,
             errorMessage: error,
           })
         }
       )
   }
 
-  console.log('appSettings', data)
+  // console.log('appSettings', data)
 
   return (
     <Layout
@@ -117,54 +128,62 @@ const CurbsideIndex: FC = ({ intl }: any) => {
       fullWidth
     >
       <div className="bg-muted-5 pa4 w-70-m w-50-l w-100-s">
-        {error && (
+        {appError && (
           <Tag type="error" variation="low">
-            {errorMessage}
+            {errorMessage.toString()}
           </Tag>
         )}
         {(loading || checkLoading) && <Spinner />}
-        {!loading && !checkLoading && !data?.appSettings?.message && (
-          <div>
-            <Card>
-              <h2>
-                <FormattedMessage id="admin/curbside.warning.title" />
-              </h2>
-              <p>
-                <FormattedMessage id="admin/curbside.warning.description" />{' '}
-                <a
-                  href="https://developers.vtex.com/docs/getting-started-authentication#creating-the-appkey-and-apptoken"
-                  target="_blank"
-                >
-                  <FormattedMessage id="admin/curbside.warning.link" />
-                </a>
-              </p>
-            </Card>
-          </div>
-        )}
-        {!loading && !checkLoading && data?.appSettings?.message && !isSetup && (
-          <div>
-            <Card>
-              <h2>
-                <FormattedMessage id="admin/curbside.setup.title" />
-              </h2>
-              <p>
-                <FormattedMessage id="admin/curbside.setup.description" />{' '}
-                <div className="mt4">
-                  <Button
-                    variation="primary"
-                    isLoading={setupLoading}
-                    collapseLeft={true}
-                    onClick={() => {
-                      setup()
-                    }}
+        {!loading &&
+          !checkLoading &&
+          (!data?.appSettings?.message ||
+            data?.appSettings?.message === '{}') && (
+            <div>
+              <Card>
+                <h2>
+                  <FormattedMessage id="admin/curbside.warning.title" />
+                </h2>
+                <p>
+                  <FormattedMessage id="admin/curbside.warning.description" />{' '}
+                  <a
+                    href="https://developers.vtex.com/docs/getting-started-authentication#creating-the-appkey-and-apptoken"
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                    <FormattedMessage id="admin/curbside.setup.button" />
-                  </Button>
-                </div>
-              </p>
-            </Card>
-          </div>
-        )}
+                    <FormattedMessage id="admin/curbside.warning.link" />
+                  </a>
+                </p>
+              </Card>
+            </div>
+          )}
+        {!loading &&
+          !checkLoading &&
+          data?.appSettings?.message &&
+          data?.appSettings?.message !== '{}' &&
+          !isSetup && (
+            <div>
+              <Card>
+                <h2>
+                  <FormattedMessage id="admin/curbside.setup.title" />
+                </h2>
+                <p>
+                  <FormattedMessage id="admin/curbside.setup.description" />{' '}
+                  <div className="mt4">
+                    <Button
+                      variation="primary"
+                      isLoading={setupLoading}
+                      collapseLeft
+                      onClick={() => {
+                        setup()
+                      }}
+                    >
+                      <FormattedMessage id="admin/curbside.setup.button" />
+                    </Button>
+                  </div>
+                </p>
+              </Card>
+            </div>
+          )}
         {!loading && !checkLoading && data?.appSettings?.message && isSetup && (
           <Box
             title={intl.formatMessage({ id: 'admin/curbside.templates.title' })}
