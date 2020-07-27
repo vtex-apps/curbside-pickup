@@ -1,0 +1,25 @@
+## Sobre
+
+Esta aplicación permite a los clientes y al personal de la tienda coordinar las solicitudes de cobro a través de notificaciones por correo electrónico. 
+
+## Características
+
+1. Cuando esta aplicación detecta que una orden de cobro ha alcanzado el estado "Listo para ser manejado", añade un comentario al cronograma de la orden indicando que el proceso de cobro ha comenzado y luego envía un correo electrónico al personal de la tienda física donde se recogerá la orden. Este correo electrónico contiene un enlace que el personal de la tienda puede pulsar cuando el pedido esté empaquetado y listo para ser recogido;
+
+2. Cuando el personal de la tienda haga clic en el enlace, esto añadirá un comentario a la línea de tiempo del pedido y activará un segundo correo electrónico que se enviará al comprador, notificándole que su pedido está listo para ser recogido. Este correo electrónico contiene un enlace en el que el comprador puede hacer clic una vez que haya llegado a la tienda;
+
+3. Cuando el comprador hace clic en el enlace "Estoy aquí" de su correo electrónico, esto añadirá un comentario a la línea de tiempo del pedido y activará un tercer correo electrónico que se enviará al personal de la tienda para informarles de que el comprador ha llegado y que deben llevar el pedido a su coche. Este correo electrónico contiene un enlace en el que el personal de la tienda debe hacer clic después de haber entregado el pedido al comprador;
+
+4. Cuando el personal de la tienda haga clic en el enlace que indica que el pedido ha sido entregado, la cronología del pedido se actualizará con un comentario a tal efecto. Esto completa el proceso de recogida en la acera y el pedido puede ser facturado como de costumbre. 
+
+## Setup
+
+1. Instale la aplicación desde la VTEX App Store;
+2. En tu panel de administración, ve a `Apps > Mis Aplicaciones > Curbside Pickup' para la configuración de la aplicación:
+- App Key y App Token: Genera un nuevo par de key/token en tu cuenta VTEX (o usa una existente) e introdúcelo aquí;
+3. En su panel de administración, vaya a "Inventario y envío > Pickup Points". Para cada ubicación en su tienda de puntos de retiro, introduzca la dirección de correo electrónico de la tienda en el campo **Línea de dirección 2**. La aplicación enviará notificaciones de retirada de la tienda a esta dirección de correo electrónico;
+4. En tu panel de administración, ve a "Recogida en la acera" (en el menú de la barra lateral justo debajo de "Stock & Delivery"). En la casilla de "casi", haga clic en el botón **PROCEDER**. Esto inicializará el gancho de notificación de pedidos requerido para la aplicación y creará las siguientes plantillas de correo electrónico:
+- "CURBSIDE ready for-packing": Enviado a la dirección de correo electrónico de la tienda (ver paso 3) cuando un pedido está listo para ser cumplido.
+- Paquete listo para la acera: Se envía al comprador cuando el pedido está listo para ser recogido.
+- `Curbside-at-local`: Se envía a la dirección de correo electrónico de la tienda cuando el comprador llega al lugar de recogida.
+⚠️ Una vez creadas las plantillas de correo electrónico, puedes personalizarlas como consideres necesario. Siga los enlaces a las plantillas de la página de recogida en la acera, o navegue a "Centro de mensajes > Plantillas" desde el panel lateral de su panel de administración.

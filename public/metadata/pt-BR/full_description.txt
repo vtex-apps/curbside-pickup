@@ -1,0 +1,25 @@
+## Sobre
+
+Este aplicativo permite que os clientes e o lojista coordenem os pedidos de coleta por meio de notificações por e-mail. 
+
+## Funcionalidades
+
+1. Quando este aplicativo detecta que um pedido de coleta chegou ao estado "Pronto para Manuseio", ele adiciona um comentário à linha de tempo do pedido declarando que o processo de coleta começou e então envia um e-mail para o pessoal da loja física onde o pedido será coletado. Este e-mail contém um link que o pessoal da loja pode clicar quando o pedido estiver embalado e pronto para ser recolhido;
+
+2. Quando o pessoal da loja clicar no link, isto adicionará um comentário à linha de tempo do pedido e acionará um segundo e-mail a ser enviado ao comprador, notificando-o de que seu pedido está pronto para ser recolhido. Este e-mail contém um link que o comprador pode clicar uma vez que tenha chegado à loja;
+
+3. Quando o comprador clicar no link "Estou aqui" em seu e-mail, isto adicionará um comentário à linha de tempo do pedido e acionará um terceiro e-mail a ser enviado ao pessoal da loja informando que o comprador chegou e que ele deve levar o pedido até seu carro. Este e-mail contém um link que o pessoal da loja deve clicar depois de ter entregue o pedido ao comprador;
+
+4. Quando o pessoal da loja clicar no link indicando que o pedido foi entregue, a linha do tempo do pedido será atualizada com um comentário para esse fim. Isto completa o processo de coleta na calçada e o pedido pode ser faturado como de costume. 
+
+## Configuração
+
+1. Instalar o aplicativo a partir da VTEX App Store;
+2. Em seu painel de administração, vá para `Apps > My Apps > Curbside Pickup` para as configurações do aplicativo:
+- App Key e App Token: Gere um novo par app key/token em sua conta VTEX (ou utilize um par existente) e insira-os aqui;
+3. Em seu painel de admin, vá para "Estoque & entrega > Pontos de retirada". Para cada local de sua loja de pontos de retirada, digite o endereço de e-mail da loja no campo **Linha de endereço 2**. O aplicativo enviará notificações de retirada da loja para este endereço de e-mail;
+4. Em seu painel de admin, vá para `Curbside Pickup` (no menu da barra lateral imediatamente abaixo de `Estoque & entrega`). Na caixa intitulada "Almost There", clique no botão **PROCEED***. Isto inicializará o gancho de notificação de pedido necessário para o aplicativo e criará os seguintes modelos de e-mail:
+- `curbside-ready for-packing`: Enviado para o endereço de e-mail da loja (ver passo 3) quando um pedido estiver pronto para ser atendido.
+- `Curbside-package-ready`: Enviado para o comprador quando o pedido está pronto para ser recolhido.
+- `Curbside-at-local`: Enviado ao endereço de e-mail da loja quando o comprador chega ao local de retirada.
+⚠️ Uma vez criados os modelos de e-mail, você pode personalizá-los como julgar necessário. Siga os links para os modelos a partir da página Curbside Pickup, ou navegue para "Central de mensagens > Templates" a partir do painel lateral de seu painel de administração.

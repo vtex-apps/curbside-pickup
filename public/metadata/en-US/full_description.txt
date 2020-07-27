@@ -2,6 +2,8 @@
 
 This app allows shoppers and store staff to coordinate curbside pickup orders through email notifications. 
 
+## Features
+
 1. When this app detects that a pickup order has reached the `Ready For Handling` state, it adds a comment to the order timeline stating that the curbside pickup process has begun and then sends an email to the staff of the physical store where the order will be picked up. This email contains a link that the store staff can click when the order is packed and ready to be picked up. 
 
 2. When the store staff clicks the link, this will add a comment to the order timeline and trigger a second email to be sent to the shopper, notifying them that their order is ready to be picked up. This email contains a link that the shopper can click once they have arrived at the store.

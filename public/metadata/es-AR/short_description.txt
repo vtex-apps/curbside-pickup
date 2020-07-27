@@ -1,0 +1,1 @@
+Proporciona notificaciones por e-mail a los compradores y al personal de la tienda para facilitar los pedidos de retirada de productos.
