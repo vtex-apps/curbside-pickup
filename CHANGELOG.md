@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Add new app store description (EN, ES, PT) and transparent icon
+- Remove commented code
+
+### Fixed
+
+- Add billingOptions type and availableCountries
+
 ## [0.2.3] - 2020-07-16
 
 ### Changed

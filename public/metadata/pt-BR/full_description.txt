@@ -1,0 +1,21 @@
+## Sobre
+
+Este aplicativo permite que os compradores e os funcionários da loja coordenem os pedidos de retirada na calçada por meio de notificações por e-mail. Isso melhora a experiência multicanal e facilita o processo de retirada, fornecendo interações em tempo real entre a equipe da loja e os compradores.
+
+## Funcionalidades
+
+- Coordena o processo de retirada na calçada
+- Envia e-mails para o comprador e a equipe da loja em cada etapa do processo de retirada na calçada
+- Adiciona comentários na linha do tempo a cada nova etapa do pedido de retirada na calçada
+
+## Configuração
+
+1. Instalar o aplicativo a partir da VTEX App Store;
+2. Em seu painel de administração, vá para `Apps > My Apps > Curbside Pickup` para as configurações do aplicativo:
+- App Key e App Token: Gere um novo par app key/token em sua conta VTEX (ou utilize um par existente) e insira-os aqui;
+3. Em seu painel de admin, vá para "Estoque & entrega > Pontos de retirada". Para cada local de sua loja de pontos de retirada, digite o endereço de e-mail da loja no campo **Linha de endereço 2**. O aplicativo enviará notificações de retirada da loja para este endereço de e-mail;
+4. Em seu painel de admin, vá para `Curbside Pickup` (no menu da barra lateral imediatamente abaixo de `Estoque & entrega`). Na caixa intitulada "Almost There", clique no botão **PROCEED***. Isto inicializará o gancho de notificação de pedido necessário para o aplicativo e criará os seguintes modelos de e-mail:
+- `curbside-ready for-packing`: Enviado para o endereço de e-mail da loja (ver passo 3) quando um pedido estiver pronto para ser atendido.
+- `Curbside-package-ready`: Enviado para o comprador quando o pedido está pronto para ser recolhido.
+- `Curbside-at-local`: Enviado ao endereço de e-mail da loja quando o comprador chega ao local de retirada.
+⚠️ Uma vez criados os modelos de e-mail, você pode personalizá-los como julgar necessário. Siga os links para os modelos a partir da página Curbside Pickup, ou navegue para "Central de mensagens > Templates" a partir do painel lateral de seu painel de administração.

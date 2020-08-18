@@ -54,7 +54,6 @@ const CurbsideIndex: FC = ({ intl }: any) => {
       .then(res => res.json())
       .then(
         result => {
-          // console.log('Result check =>', result)
           setState({
             ...state,
             checkLoading: false,
@@ -62,7 +61,6 @@ const CurbsideIndex: FC = ({ intl }: any) => {
           })
         },
         error => {
-          // console.log('Result check error =>', error)
           setState({
             ...state,
             checkLoading: false,
@@ -88,7 +86,6 @@ const CurbsideIndex: FC = ({ intl }: any) => {
       .then(res => res.json())
       .then(
         () => {
-          // console.log('Result setup =>', result)
           setState({
             ...state,
             checkLoading: false,
@@ -97,7 +94,6 @@ const CurbsideIndex: FC = ({ intl }: any) => {
           })
         },
         error => {
-          // console.log('Result setup error =>', error)
           setState({
             checkLoading: false,
             setupLoading: false,
@@ -107,8 +103,6 @@ const CurbsideIndex: FC = ({ intl }: any) => {
         }
       )
   }
-
-  // console.log('appSettings', data)
 
   return (
     <Layout

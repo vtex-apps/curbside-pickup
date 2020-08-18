@@ -1,0 +1,1 @@
+Fornece notificações por e-mail para os compradores e o pessoal da loja para facilitar os pedidos de coleta de produtos.

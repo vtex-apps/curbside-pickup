@@ -1,0 +1,21 @@
+## Sobre
+
+Esta aplicación permite a los consumidores y al personal de la tienda coordinar los pedidos de recogida en la acera (curbside pickup) a través de notificaciones por correo electrónico. Esto mejora la experiencia multicanal y facilita el proceso de recogida al proporcionar interacciones en tiempo real entre el personal de la tienda y los consumidores.
+
+## Características
+
+- Coordina el proceso de recogida en la acera.
+- Envía correos electrónicos a los consumidores y al personal de la tienda en cada etapa del proceso de recogida en la acera.
+- Añade comentarios en la línea de tiempo del pedido a medida que el pedido de recogida en la acera llega a cada etapa.
+
+## Setup
+
+1. Instale la aplicación desde la VTEX App Store;
+2. En tu panel de administración, ve a `Apps > Mis Aplicaciones > Curbside Pickup' para la configuración de la aplicación:
+- App Key y App Token: Genera un nuevo par de key/token en tu cuenta VTEX (o usa una existente) e introdúcelo aquí;
+3. En su panel de administración, vaya a "Inventario y envío > Pickup Points". Para cada ubicación en su tienda de puntos de retiro, introduzca la dirección de correo electrónico de la tienda en el campo **Línea de dirección 2**. La aplicación enviará notificaciones de retirada de la tienda a esta dirección de correo electrónico;
+4. En tu panel de administración, ve a "Recogida en la acera" (en el menú de la barra lateral justo debajo de "Stock & Delivery"). En la casilla de "casi", haga clic en el botón **PROCEDER**. Esto inicializará el gancho de notificación de pedidos requerido para la aplicación y creará las siguientes plantillas de correo electrónico:
+- "CURBSIDE ready for-packing": Enviado a la dirección de correo electrónico de la tienda (ver paso 3) cuando un pedido está listo para ser cumplido.
+- Paquete listo para la acera: Se envía al comprador cuando el pedido está listo para ser recogido.
+- `Curbside-at-local`: Se envía a la dirección de correo electrónico de la tienda cuando el comprador llega al lugar de recogida.
+⚠️ Una vez creadas las plantillas de correo electrónico, puedes personalizarlas como consideres necesario. Siga los enlaces a las plantillas de la página de recogida en la acera, o navegue a "Centro de mensajes > Plantillas" desde el panel lateral de su panel de administración.

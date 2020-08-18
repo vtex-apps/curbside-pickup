@@ -21,9 +21,7 @@
       }
     }
   },
-  "registries": [
-    "smartcheckout"
-  ],
+  "registries": ["smartcheckout"],
   "builders": {
     "dotnet": "2.x",
     "admin": "0.x",
@@ -44,7 +42,9 @@
     "support": {
       "url": "https://support.vtex.com/hc/requests"
     },
-    "free": true
+    "free": true,
+    "type": "free",
+    "availableCountries": ["*"]
   },
   "mustUpdateAt": "2018-09-05",
   "scripts": {
