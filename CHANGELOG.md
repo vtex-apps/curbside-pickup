@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.4] - 2020-08-18
+
 ### Changed
 
 - Add new app store description (EN, ES, PT) and transparent icon
