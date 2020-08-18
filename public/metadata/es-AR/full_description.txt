@@ -1,16 +1,12 @@
 ## Sobre
 
-Esta aplicación permite a los clientes y al personal de la tienda coordinar las solicitudes de cobro a través de notificaciones por correo electrónico. 
+Esta aplicación permite a los consumidores y al personal de la tienda coordinar los pedidos de recogida en la acera (curbside pickup) a través de notificaciones por correo electrónico. Esto mejora la experiencia multicanal y facilita el proceso de recogida al proporcionar interacciones en tiempo real entre el personal de la tienda y los consumidores.
 
 ## Características
 
-1. Cuando esta aplicación detecta que una orden de cobro ha alcanzado el estado "Listo para ser manejado", añade un comentario al cronograma de la orden indicando que el proceso de cobro ha comenzado y luego envía un correo electrónico al personal de la tienda física donde se recogerá la orden. Este correo electrónico contiene un enlace que el personal de la tienda puede pulsar cuando el pedido esté empaquetado y listo para ser recogido;
-
-2. Cuando el personal de la tienda haga clic en el enlace, esto añadirá un comentario a la línea de tiempo del pedido y activará un segundo correo electrónico que se enviará al comprador, notificándole que su pedido está listo para ser recogido. Este correo electrónico contiene un enlace en el que el comprador puede hacer clic una vez que haya llegado a la tienda;
-
-3. Cuando el comprador hace clic en el enlace "Estoy aquí" de su correo electrónico, esto añadirá un comentario a la línea de tiempo del pedido y activará un tercer correo electrónico que se enviará al personal de la tienda para informarles de que el comprador ha llegado y que deben llevar el pedido a su coche. Este correo electrónico contiene un enlace en el que el personal de la tienda debe hacer clic después de haber entregado el pedido al comprador;
-
-4. Cuando el personal de la tienda haga clic en el enlace que indica que el pedido ha sido entregado, la cronología del pedido se actualizará con un comentario a tal efecto. Esto completa el proceso de recogida en la acera y el pedido puede ser facturado como de costumbre. 
+- Coordina el proceso de recogida en la acera.
+- Envía correos electrónicos a los consumidores y al personal de la tienda en cada etapa del proceso de recogida en la acera.
+- Añade comentarios en la línea de tiempo del pedido a medida que el pedido de recogida en la acera llega a cada etapa.
 
 ## Setup
 
