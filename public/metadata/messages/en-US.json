@@ -1,0 +1,14 @@
+{
+  "name": "Curbside Pickup",
+  "headline": "Provides email notifications to shoppers and store staff to facilitate curbside pickup orders.",
+  "overview": "This app allows shoppers and store staff to coordinate curbside pickup orders through email notifications. This improves the multi-channel experience and facilitates the pickup process by providing real-time interactions between store staff and shoppers.",
+  "features": [
+    "Coordinates the curbside pickup process",
+    "Sends emails to shopper and store staff in each stage of the curbside pickup process",
+    "Adds comments in the order timeline as a curbside pickup order reaches each stage"
+  ],
+  "websiteURL": "https://vtex.com/",
+  "support": {
+    "url": "https://support.vtex.com/hc/requests"
+  }
+}
