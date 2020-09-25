@@ -1,0 +1,14 @@
+{
+  "name": "Curbside Pickup",
+  "headline": "Fornece notificações por e-mail para os compradores e o pessoal da loja para facilitar os pedidos de coleta de produtos.",
+  "overview": "Este aplicativo permite que os compradores e os funcionários da loja coordenem os pedidos de retirada na calçada por meio de notificações por e-mail. Isso melhora a experiência multicanal e facilita o processo de retirada, fornecendo interações em tempo real entre a equipe da loja e os compradores.",
+  "features": [
+    "Coordena o processo de retirada na calçada",
+    "Envia e-mails para o comprador e a equipe da loja em cada etapa do processo de retirada na calçada",
+    "Adiciona comentários na linha do tempo a cada nova etapa do pedido de retirada na calçada"
+  ],
+  "websiteURL": "https://vtex.com/",
+  "support": {
+    "url": "https://support.vtex.com/hc/requests"
+  }
+}

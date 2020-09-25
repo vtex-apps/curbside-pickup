@@ -1,0 +1,14 @@
+{
+  "name": "Curbside Pickup",
+  "headline": "Proporciona notificaciones por e-mail a los compradores y al personal de la tienda para facilitar los pedidos de retirada de productos.",
+  "overview": "Esta aplicación permite a los consumidores y al personal de la tienda coordinar los pedidos de recogida en la acera (curbside pickup) a través de notificaciones por correo electrónico. Esto mejora la experiencia multicanal y facilita el proceso de recogida al proporcionar interacciones en tiempo real entre el personal de la tienda y los consumidores.",
+  "features": [
+    "Coordina el proceso de recogida en la acera.",
+    "Envía correos electrónicos a los consumidores y al personal de la tienda en cada etapa del proceso de recogida en la acera.",
+    "Añade comentarios en la línea de tiempo del pedido a medida que el pedido de recogida en la acera llega a cada etapa."
+  ],
+  "websiteURL": "https://vtex.com/",
+  "support": {
+    "url": "https://support.vtex.com/hc/requests"
+  }
+}
