@@ -30,6 +30,9 @@ In your VTEX account's admin, perform the following actions:
 
 4. Access **Inventory & shipping** and then **Pickup points**. 
 5. For each of your pickup point store locations, enter the store's email address in the **Address Line 2** field. The Curbside Pickup app will use this email to send the store pickup notifications.
+
+> ℹ️ If the `Address Line 2` field is not available for you, use the `complement` field instead.
+
 6. Access the new admin's **Curbside Pickup** section, immediately below Inventory & shipping.
 7. In the box titled `Almost There`, click on the **PROCEED** button. This will initialize the order notification hook needed by the app and will create the following email templates:
 
