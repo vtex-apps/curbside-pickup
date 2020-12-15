@@ -64,6 +64,12 @@
       "name": "colossus-write-logs"
     },
     {
+      "name": "template-listar"
+    },
+    {
+      "name": "send-message"
+    },
+    {
       "name": "outbound-access",
       "attrs": {
         "host": "bnb.data.bl.uk"
